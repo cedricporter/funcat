@@ -5,6 +5,11 @@
 
 苦于 Python 缺乏这种领域特定语言，所以用 Python 实现了一套。
 
+## 安装
+```
+pip install funcat
+```
+
 ## quick start
 ``` python
 from funcat import *

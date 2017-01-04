@@ -13,10 +13,11 @@ from pip.req import parse_requirements
 
 setup(
     name='funcat',
-    version='0.0.1',
+    version='0.0.2',
     description='funcat',
     packages=find_packages(exclude=[]),
-    author='et@everet.org',
+    author='Hua Liang',
+    url='https://github.com/cedricporter/funcat',
     author_email='et@everet.org',
     package_data={'': ['*.*']},
     install_requires=[str(ir.req) for ir in parse_requirements("requirements.txt", session=False)],
