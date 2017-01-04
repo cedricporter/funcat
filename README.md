@@ -1,5 +1,5 @@
 # Funcat
-提供 Python 公式选股。
+Funcat 将同花顺、通达信等公式表达能力引入 Python 。
 
 使用同花顺、通达信等公式，做技术分析，表达十分简洁。
 
@@ -8,6 +8,61 @@
 ## 安装
 ```
 pip install funcat
+```
+
+## 选股
+``` python
+# 选出涨停股
+loop(
+    lambda : C / C[1] - 1 >= 0.995,
+    limit_start=20161231,
+)
+'''
+[20170104]
+20170104 000045.XSHE 000045.XSHE[深纺织Ａ]
+20170104 000585.XSHE 000585.XSHE[东北电气]
+20170104 000595.XSHE 000595.XSHE[宝塔实业]
+20170104 000695.XSHE 000695.XSHE[滨海能源]
+20170104 000710.XSHE 000710.XSHE[天兴仪表]
+20170104 000755.XSHE 000755.XSHE[山西三维]
+...
+'''
+
+
+# 选出最近3天每天的成交量小于20日成交量均线，最近3天最低价低于20日均线，最高价高于20日均线
+# 自定义选股回调函数
+def callback(date, order_book_id, symbol):
+    print("Cool, 在", date, "选出", order_book_id, symbol)
+
+loop(
+    lambda : (EVERY(V < MA(V, 20) / 2, 3) and EVERY(L < MA(C, 20), 3) and EVERY(H > MA(C, 20), 3)),
+    limit_start=20161231,
+    callback=callback,
+)
+'''
+[20170104]
+Cool, 在 20170104 选出 002633.XSHE 002633.XSHE[申科股份]
+Cool, 在 20170104 选出 600857.XSHG 600857.XSHG[宁波中百]
+...
+'''
+
+
+# 选出最近30天K线实体最高价最低价差7%以内，最近100天K线实体最高价最低价差25%以内，最近10天，收盘价大于60日均线的天数大于3天
+loop(
+    lambda : (HHV(MAX(C, O), 30) / LLV(MIN(C, O), 30) - 1 < 0.07
+              and HHV(MAX(C, O), 100) / LLV(MIN(C, O), 100) - 1 > 0.25
+              and COUNT(C > MA(C, 60), 10) > 3
+             ),
+    limit_start=20161220,
+)
+'''
+[20170104]
+20170104 600512.XSHG 600512.XSHG[腾达建设]
+[20170103]
+[20161230]
+20161230 000513.XSHE 000513.XSHE[丽珠集团]
+...
+'''
 ```
 
 ## quick start
@@ -49,43 +104,6 @@ True
 # 10日均线上穿
 >>> CROSS(MA(C, 10), MA(C, 20))
 False
-```
-
-## 选股
-``` python
-# 选出涨停股
-loop(
-    lambda : C / C[1] - 1 >= 0.995,
-    limit_start=20161231,
-)
-''' output
-lambda : C / C[1] - 1 >= 0.0995,
-[20170104]
-20170104 000045.XSHE 000045.XSHE[深纺织Ａ]
-20170104 000585.XSHE 000585.XSHE[东北电气]
-20170104 000595.XSHE 000595.XSHE[宝塔实业]
-20170104 000695.XSHE 000695.XSHE[滨海能源]
-20170104 000710.XSHE 000710.XSHE[天兴仪表]
-20170104 000755.XSHE 000755.XSHE[山西三维]
-...
-'''
-
-# 选出最近3天每天的成交量小于20日成交量均线，最近3天最低价低于20日均线，最高价高于20日均线
-# 自定义选股回调函数
-def callback(date, order_book_id, symbol):
-    print("Cool, 在", date, "选出", order_book_id, symbol)
-
-loop(
-    lambda : (EVERY(V < MA(V, 20) / 2, 3) and EVERY(L < MA(C, 20), 3) and EVERY(H > MA(C, 20), 3)),
-    limit_start=20161231,
-    callback=callback,
-)
-'''
-output
-[20170104]
-Cool, 在 20170104 选出 002633.XSHE 002633.XSHE[申科股份]
-Cool, 在 20170104 选出 600857.XSHG 600857.XSHG[宁波中百]
-'''
 ```
 
 ## DataBackend
