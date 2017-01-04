@@ -38,6 +38,9 @@ def getsourcelines(func):
 
 
 def get_int_date(date):
+    if isinstance(date, int):
+        return date
+
     try:
         return int(datetime.datetime.strptime(date, "%Y-%m-%d").strftime("%Y%m%d"))
     except:

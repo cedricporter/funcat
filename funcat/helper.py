@@ -38,7 +38,7 @@ def loop(func, limit_start="2016-10-01", limit_end=None, max_date="2050-01-01", 
     order_book_id_list = data_backend.get_order_book_id_list()
     trading_dates = data_backend.get_trading_dates(start=data_backend.get_start_date(), end=max_date)
     for idx, date in enumerate(reversed(trading_dates)):
-        if limit_end and date > int(limit_end):
+        if limit_end and date > get_int_date(limit_end):
             continue
         if date < get_int_date(limit_start):
             break

@@ -12,6 +12,8 @@ class TushareDataBackend(DataBackend):
         import tushare as ts
         self.start_date = start_date
         self.ts = ts
+        self.stock_basics = self.ts.get_stock_basics()
+        self.code_name_map = self.stock_basics[["name"]].to_dict()["name"]
 
     def convert_code(self, order_book_id):
         return order_book_id.split(".")[0]
@@ -78,4 +80,5 @@ class TushareDataBackend(DataBackend):
         :returns: 名字
         :rtype: str
         """
-        return order_book_id
+        code = self.convert_code(order_book_id)
+        return "{}[{}]".format(order_book_id, self.code_name_map.get(code))
