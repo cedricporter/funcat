@@ -65,7 +65,7 @@ loop(
 '''
 ```
 
-## quick start
+## 单股票研究
 ``` python
 from funcat import *
 from funcat.data.tushare_backend import TushareDataBackend
