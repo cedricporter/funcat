@@ -32,15 +32,15 @@ def choose(order_book_id, func, callback):
 
 
 @suppress_numpy_warn
-def loop(func, limit_start="2016-10-01", limit_end=None, max_date="2050-01-01", callback=print):
+def select(func, start_date="2016-10-01", end_date=None, max_date="2050-01-01", callback=print):
     print(getsourcelines(func))
     data_backend = ExecutionContext.get_data_backend()
     order_book_id_list = data_backend.get_order_book_id_list()
     trading_dates = data_backend.get_trading_dates(start=data_backend.get_start_date(), end=max_date)
     for idx, date in enumerate(reversed(trading_dates)):
-        if limit_end and date > get_int_date(limit_end):
+        if end_date and date > get_int_date(end_date):
             continue
-        if date < get_int_date(limit_start):
+        if date < get_int_date(start_date):
             break
         set_current_date(str(date))
         print("[{}]".format(date))

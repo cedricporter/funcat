@@ -12,19 +12,22 @@ pip install funcat
 
 ## 选股
 ``` python
+from funcat import *
+
 # 选出涨停股
-loop(
-    lambda : C / C[1] - 1 >= 0.995,
-    limit_start=20161231,
+select(
+    lambda : C / C[1] - 1 >= 0.0995,
+    start_date=20161231,
+	end_date=20170104,
 )
 '''
 [20170104]
+20170104 000017.XSHE 000017.XSHE[深中华A]
+20170104 000026.XSHE 000026.XSHE[飞亚达Ａ]
 20170104 000045.XSHE 000045.XSHE[深纺织Ａ]
 20170104 000585.XSHE 000585.XSHE[东北电气]
 20170104 000595.XSHE 000595.XSHE[宝塔实业]
-20170104 000695.XSHE 000695.XSHE[滨海能源]
-20170104 000710.XSHE 000710.XSHE[天兴仪表]
-20170104 000755.XSHE 000755.XSHE[山西三维]
+20170104 000678.XSHE 000678.XSHE[襄阳轴承]
 ...
 '''
 
@@ -34,9 +37,9 @@ loop(
 def callback(date, order_book_id, symbol):
     print("Cool, 在", date, "选出", order_book_id, symbol)
 
-loop(
+select(
     lambda : (EVERY(V < MA(V, 20) / 2, 3) and EVERY(L < MA(C, 20), 3) and EVERY(H > MA(C, 20), 3)),
-    limit_start=20161231,
+    start_date=20161231,
     callback=callback,
 )
 '''
@@ -48,12 +51,12 @@ Cool, 在 20170104 选出 600857.XSHG 600857.XSHG[宁波中百]
 
 
 # 选出最近30天K线实体最高价最低价差7%以内，最近100天K线实体最高价最低价差25%以内，最近10天，收盘价大于60日均线的天数大于3天
-loop(
+select(
     lambda : (HHV(MAX(C, O), 30) / LLV(MIN(C, O), 30) - 1 < 0.07
               and HHV(MAX(C, O), 100) / LLV(MIN(C, O), 100) - 1 > 0.25
               and COUNT(C > MA(C, 60), 10) > 3
              ),
-    limit_start=20161220,
+    start_date=20161220,
 )
 '''
 [20170104]
