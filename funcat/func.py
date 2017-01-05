@@ -10,6 +10,7 @@ from .time_series import PriceSeries, NumericSeries, BoolSeries, fit_series
 
 
 class MovingAverageSeries(NumericSeries):
+    """均线"""
     def __init__(self, series, period):
         import talib
         if isinstance(series, NumericSeries):
@@ -19,6 +20,22 @@ class MovingAverageSeries(NumericSeries):
             except Exception as e:
                 raise FormulaException(e)
         super(MovingAverageSeries, self).__init__(series)
+        self.extra_create_kwargs["period"] = period
+
+
+class SumSeries(NumericSeries):
+    """求和"""
+    def __init__(self, series, period):
+        import talib
+        if isinstance(series, NumericSeries):
+            series = series.series
+            try:
+                series[series == np.inf] = 0
+                series[series == -np.inf] = 0
+                series = talib.SUM(series, period)
+            except Exception as e:
+                raise FormulaException(e)
+        super(SumSeries, self).__init__(series)
         self.extra_create_kwargs["period"] = period
 
 

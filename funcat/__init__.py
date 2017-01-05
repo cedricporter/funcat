@@ -6,7 +6,7 @@
 import datetime
 
 from .time_series import PriceSeries
-from .func import MovingAverageSeries, CrossOver, minimum, maximum, every, count, hhv, llv, Ref
+from .func import SumSeries, MovingAverageSeries, CrossOver, minimum, maximum, every, count, hhv, llv, Ref
 from .context import ExecutionContext, symbol, set_current_stock as S, set_current_date as T, set_data_backend
 from .helper import select
 from .data.tushare_backend import TushareDataBackend
@@ -21,6 +21,7 @@ for name in ["open", "high", "low", "close", "volume"]:
 
 
 ma = MA = MovingAverageSeries
+sum = SUM = SumSeries
 cross = CROSS = CrossOver
 ref = REF = Ref
 MIN = minimum
@@ -31,6 +32,6 @@ HHV = hhv
 LLV = llv
 
 
-ExecutionContext(date=int(datetime.date.today().strftime("%Y%m%d")),
+ExecutionContext(date=20170104,
                  stock="000001.XSHG",
                  data_backend=TushareDataBackend())._push()
