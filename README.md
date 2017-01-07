@@ -25,52 +25,52 @@ pip install -U funcat
 ### 工具函数
 
 - n天前的数据：`REF` `ref`
-```
+``` python
 REF(C, 10)  # 10天前的收盘价
 ```
 
 - 均线：`MA` `ma`
-```
+``` python
 MA(C, 60)  # 60日均线
 ```
 
 - 金叉判断：`CROSS` `cross`
-```
+``` python
 CROSS(MA(C, 5), MA(C, 10))  # 5日均线上穿10日均线
 ```
 
 - 两个序列取最小值：`MIN` `minimum`
-```
+``` python
 MIN(O, C)  # K线实体的最低价
 ```
 
 - 两个序列取最大值：`MAX` `maximum`
-```
+``` python
 MAX(O, C)  # K线实体的最高价
 ```
 
 - n天都满足条件：`EVERY` `every`
-```
+``` python
 EVERY(C > MA(C, 5), 10)  # 最近10天收盘价都大于5日均线
 ```
 
 - n天内满足条件的天数：`COUNT` `count`
-```
+``` python
 COUNT(C > O, 10)  # 最近10天收阳线的天数
 ```
 
 - n天内最大值：`HHV` `hhv`
-```
+``` python
 HHV(MAX(O, C), 60)  # 最近60天K线实体的最高价
 ```
 
 - n天内最小值：`LLV` `llv`
-```
+``` python
 LLV(MIN(O, C), 60)  # 最近60天K线实体的最低价
 ```
 
 - 求和n日数据 `SUM` `sum`
-```
+``` python
 SUM(C, 10)  # 求和10天的收盘价
 ```
 
