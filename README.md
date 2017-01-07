@@ -203,6 +203,8 @@ False
 为了更高的性能，可以自定义Backend使用本地数据。这样可以极大地提高运行速度。
 
 ## TODO
+- EMA
 - MACD
 - KDJ
+- BOLL
 - IF
