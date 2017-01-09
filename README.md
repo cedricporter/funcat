@@ -207,4 +207,3 @@ False
 - MACD
 - KDJ
 - BOLL
-- IF
