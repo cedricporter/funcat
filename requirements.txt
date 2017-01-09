@@ -1,3 +1,8 @@
 numpy
 six
 backports.functools_lru_cache
+pandas
+lxml
+requests
+TA-Lib
+tushare

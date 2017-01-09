@@ -3,10 +3,8 @@
 # Author: Hua Liang[Stupid ET] <et@everet.org>
 #
 
-import datetime
-
 from .time_series import PriceSeries
-from .func import SumSeries, MovingAverageSeries, CrossOver, minimum, maximum, every, count, hhv, llv, Ref
+from .func import SumSeries, MovingAverageSeries, CrossOver, minimum, maximum, every, count, hhv, llv, Ref, iif
 from .context import ExecutionContext, symbol, set_current_stock as S, set_current_date as T, set_data_backend
 from .helper import select
 from .data.tushare_backend import TushareDataBackend
@@ -30,7 +28,7 @@ EVERY = every
 COUNT = count
 HHV = hhv
 LLV = llv
-
+IF = IIF = iif
 
 ExecutionContext(date=20170104,
                  stock="000001.XSHG",

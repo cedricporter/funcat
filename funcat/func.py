@@ -120,3 +120,7 @@ def llv(s, n):
         result[i] = s.min()
         series = series[:-1]
     return NumericSeries(result)
+
+
+def iif(condition, true_statement, false_statement):
+    return true_statement if condition else false_statement
