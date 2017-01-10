@@ -4,7 +4,7 @@
 #
 
 from .time_series import PriceSeries
-from .func import SumSeries, MovingAverageSeries, CrossOver, minimum, maximum, every, count, hhv, llv, Ref, iif
+from .func import Sum, MovingAverage, CrossOver, minimum, maximum, every, count, hhv, llv, Ref
 from .context import ExecutionContext, symbol, set_current_stock as S, set_current_date as T, set_data_backend
 from .helper import select
 from .data.tushare_backend import TushareDataBackend
@@ -18,8 +18,8 @@ for name in ["open", "high", "low", "close", "volume"]:
         globals()[var] = obj
 
 
-ma = MA = MovingAverageSeries
-sum = SUM = SumSeries
+ma = MA = MovingAverage
+sum = SUM = Sum
 cross = CROSS = CrossOver
 ref = REF = Ref
 MIN = minimum

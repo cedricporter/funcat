@@ -12,8 +12,17 @@ class TushareDataBackend(DataBackend):
         import tushare as ts
         self.start_date = start_date
         self.ts = ts
+
+    @lru_cache()
+    def get_stock_basics(self):
+        stock_basics = self.ts.get_stock_basics()
+        return stock_basics
+
+    @property
+    def code_name_map(self):
         self.stock_basics = self.ts.get_stock_basics()
-        self.code_name_map = self.stock_basics[["name"]].to_dict()["name"]
+        code_name_map = self.stock_basics[["name"]].to_dict()["name"]
+        return code_name_map
 
     def convert_code(self, order_book_id):
         return order_book_id.split(".")[0]
