@@ -28,7 +28,6 @@ EVERY = every
 COUNT = count
 HHV = hhv
 LLV = llv
-IF = IIF = iif
 
 ExecutionContext(date=20170104,
                  stock="000001.XSHG",

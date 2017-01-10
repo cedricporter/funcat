@@ -6,37 +6,45 @@
 import numpy as np
 
 from .utils import FormulaException
-from .time_series import PriceSeries, NumericSeries, BoolSeries, fit_series
+from .time_series import NumericSeries, BoolSeries, fit_series
 
 
-class MovingAverageSeries(NumericSeries):
-    """均线"""
-    def __init__(self, series, period):
-        import talib
-        if isinstance(series, NumericSeries):
-            series = series.series
-            try:
-                series = talib.MA(series, period)
-            except Exception as e:
-                raise FormulaException(e)
-        super(MovingAverageSeries, self).__init__(series)
-        self.extra_create_kwargs["period"] = period
+def generate_talib_index(*args, **kwargs):
+    import talib
+    try:
+        output = getattr(talib, kwargs['name'])(*args)
+        if isinstance(output, np.ndarray):
+            return NumericSeries(output)
+        elif isinstance(output, tuple):
+            return tuple([NumericSeries(series) for series in output])
+    except Exception as e:
+        raise FormulaException(e)
 
 
-class SumSeries(NumericSeries):
-    """求和"""
-    def __init__(self, series, period):
-        import talib
-        if isinstance(series, NumericSeries):
-            series = series.series
-            try:
-                series[series == np.inf] = 0
-                series[series == -np.inf] = 0
-                series = talib.SUM(series, period)
-            except Exception as e:
-                raise FormulaException(e)
-        super(SumSeries, self).__init__(series)
-        self.extra_create_kwargs["period"] = period
+def MovingAverage(series, period):
+    if isinstance(series, NumericSeries):
+        series = series.series
+    series = generate_talib_index(series, period, name="MA")
+    series.extra_create_kwargs["period"] = period
+    return series
+
+
+def ExponentialMovingAverage(series, period):
+    if isinstance(series, NumericSeries):
+        series = series.series
+    series = generate_talib_index(series, period, name="EMA")
+    series.extra_create_kwargs["period"] = period
+    return series
+
+
+def Sum(series, period):
+    if isinstance(series, NumericSeries):
+        series = series.series
+        series[series == np.inf] = 0
+        series[series == -np.inf] = 0
+    series = generate_talib_index(series, period, name="SUM")
+    series.extra_create_kwargs["period"] = period
+    return series
 
 
 def CrossOver(s1, s2):
@@ -121,6 +129,3 @@ def llv(s, n):
         series = series[:-1]
     return NumericSeries(result)
 
-
-def iif(condition, true_statement, false_statement):
-    return true_statement if condition else false_statement
