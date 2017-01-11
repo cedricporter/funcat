@@ -55,6 +55,18 @@ def get_series(val):
         return DuplicateNumericSeries(val).series
 
 
+def get_talib_series(*args, **kwargs):
+    import talib
+    try:
+        output = getattr(talib, kwargs['name'])(*args)
+        if isinstance(output, np.ndarray):
+            return NumericSeries(output)
+        elif isinstance(output, tuple):
+            return tuple([NumericSeries(series) for series in output])
+    except Exception as e:
+        raise FormulaException(e)
+
+
 class TimeSeries:
     '''
     https://docs.python.org/3/library/operator.html
@@ -134,10 +146,10 @@ class TimeSeries:
 
 
 class NumericSeries(TimeSeries):
-    def __init__(self, series=[]):
+    def __init__(self, series=[], **kwargs):
         super(NumericSeries, self).__init__()
         self._series = series
-        self.extra_create_kwargs = {}
+        self.extra_create_kwargs = kwargs
 
     @property
     def series(self):
