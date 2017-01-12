@@ -12,6 +12,7 @@ from .context import ExecutionContext
 
 
 def get_bars():
+    # TODO Cache
     data_backend = ExecutionContext.get_data_backend()
     current_date = ExecutionContext.get_current_date()
     stock = ExecutionContext.get_current_stock()
@@ -172,7 +173,6 @@ class PriceSeries(NumericSeries):
 
     def _ensure_series_update(self):
         if self._dynamic_update:
-            # TODO: cache
             bars = get_bars()
             if len(bars) > 0:
                 self._series = bars[self.name]
