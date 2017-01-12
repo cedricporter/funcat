@@ -3,6 +3,7 @@
 
 import numpy as np
 
+from ..market_func import TR
 from ...utils import FormulaException
 from ...time_series import NumericSeries, get_talib_series
 
@@ -98,3 +99,7 @@ def EMA(series, period):
     return series
 
 EXPMA = EMA
+
+
+def ATR(period):
+    return MA(TR, period)
