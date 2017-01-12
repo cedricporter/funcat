@@ -146,7 +146,7 @@ class TimeSeries:
 
 
 class NumericSeries(TimeSeries):
-    def __init__(self, series=[], **kwargs):
+    def __init__(self, series, **kwargs):
         super(NumericSeries, self).__init__()
         self._series = series
         self.extra_create_kwargs = kwargs

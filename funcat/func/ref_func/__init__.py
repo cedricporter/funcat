@@ -66,6 +66,16 @@ def SUM(series, period):
     return series
 
 
+def SMA(series, period, weight):
+    """ 简单移动平均线
+    SMA(X,N,P):SMA=(P*X+(N-P)*SMA[i-1])/N
+    """
+    if isinstance(series, NumericSeries):
+        series = series.series
+    series = get_talib_series(series, period, name="SMA")
+    series.extra_create_kwargs["period"] = period
+
+
 def MA(series, period):
     """ 移动平均线
     MA(X,N)=(X1+X2+X3+...+Xn)/N
@@ -86,6 +96,5 @@ def EMA(series, period):
     series = get_talib_series(series, period, name="EMA")
     series.extra_create_kwargs["period"] = period
     return series
-
 
 EXPMA = EMA
