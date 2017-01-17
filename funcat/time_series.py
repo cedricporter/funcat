@@ -55,7 +55,7 @@ def get_series(val):
         return DuplicateNumericSeries(val).series
 
 
-class TimeSeries:
+class TimeSeries(object):
     '''
     https://docs.python.org/3/library/operator.html
     '''
