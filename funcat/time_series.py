@@ -126,6 +126,8 @@ class TimeSeries(object):
         series = s1 / s2
         return NumericSeries(series)
 
+    __div__ = __truediv__
+
     def __bool__(self):
         return len(self) > 0 and bool(self.value)
 
