@@ -62,3 +62,9 @@ def get_str_date_from_int(date_int):
     day = date_int % 100
 
     return "%d-%02d-%02d" % (year, month, day)
+
+
+def get_date_from_int(date_int):
+    date_str = get_str_date_from_int(date_int)
+
+    return datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
