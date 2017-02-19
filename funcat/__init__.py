@@ -5,7 +5,7 @@
 
 from .time_series import PriceSeries
 from .func import SumSeries, MovingAverageSeries, CrossOver, minimum, maximum, every, count, hhv, llv, Ref, iif
-from .context import ExecutionContext as funcat_execution_context, symbol, set_current_stock as S, set_current_date as T, set_data_backend
+from .context import ExecutionContext as funcat_execution_context, symbol, set_current_stock, set_current_date, set_data_backend
 from .helper import select
 from .data.tushare_backend import TushareDataBackend
 
@@ -29,6 +29,9 @@ COUNT = count
 HHV = hhv
 LLV = llv
 IF = IIF = iif
+
+S = set_current_stock
+T = set_current_date
 
 funcat_execution_context(date=20170104,
                          stock="000001.XSHG",
