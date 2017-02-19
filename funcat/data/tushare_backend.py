@@ -3,23 +3,35 @@
 # Author: Hua Liang[Stupid ET] <et@everet.org>
 #
 
+from cached_property import cached_property
+
 from .backend import DataBackend
 from ..utils import lru_cache, get_str_date_from_int, get_int_date
 
 
 class TushareDataBackend(DataBackend):
     def __init__(self, start_date="2011-01-01"):
+        self.start_date = start_date
+
+    @cached_property
+    def ts(self):
         try:
             import tushare as ts
+            return ts
         except ImportError:
             print("-" * 50)
             print(">>> Missing tushare. Please run `pip install tushare`")
             print("-" * 50)
             raise
-        self.start_date = start_date
-        self.ts = ts
-        self.stock_basics = self.ts.get_stock_basics()
-        self.code_name_map = self.stock_basics[["name"]].to_dict()["name"]
+
+    @cached_property
+    def stock_basics(self):
+        return self.ts.get_stock_basics()
+
+    @cached_property
+    def code_name_map(self):
+        code_name_map = self.stock_basics[["name"]].to_dict()["name"]
+        return code_name_map
 
     def convert_code(self, order_book_id):
         return order_book_id.split(".")[0]

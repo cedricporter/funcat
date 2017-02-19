@@ -5,3 +5,4 @@ pandas
 lxml
 requests
 TA-Lib
+cached-property
