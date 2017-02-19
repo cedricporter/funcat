@@ -131,6 +131,9 @@ class TimeSeries(object):
     def __bool__(self):
         return len(self) > 0 and bool(self.value)
 
+    # fix bug in python 2
+    __nonzero__ = __bool__
+
     def __repr__(self):
         return str(self.value)
 
