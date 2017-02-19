@@ -9,7 +9,13 @@ from ..utils import lru_cache, get_str_date_from_int, get_int_date
 
 class TushareDataBackend(DataBackend):
     def __init__(self, start_date="2011-01-01"):
-        import tushare as ts
+        try:
+            import tushare as ts
+        except ImportError:
+            print("-" * 50)
+            print(">>> Missing tushare. Please run `pip install tushare`")
+            print("-" * 50)
+            raise
         self.start_date = start_date
         self.ts = ts
         self.stock_basics = self.ts.get_stock_basics()

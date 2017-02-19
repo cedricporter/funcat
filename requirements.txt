@@ -5,4 +5,3 @@ pandas
 lxml
 requests
 TA-Lib
-tushare
