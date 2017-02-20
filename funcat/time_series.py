@@ -27,7 +27,7 @@ def get_bars():
         return bars
 
     # if stock is suspend, just skip
-    if bars["date"][-1] != current_date:
+    if data_backend.skip_suspended and bars["date"][-1] != current_date:
         return np.array([])
 
     return bars

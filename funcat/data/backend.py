@@ -5,6 +5,8 @@
 
 
 class DataBackend(object):
+    skip_suspended = True
+
     def get_price(self, order_book_id, start, end):
         """
         :param order_book_id: e.g. 000002.XSHE

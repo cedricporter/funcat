@@ -14,6 +14,8 @@ class RQAlphaDataBackend(DataBackend):
     """
     目前仅支持日数据
     """
+    skip_suspended = False
+
     def __init__(self):
         from rqalpha.api import (
             history_bars,
