@@ -209,3 +209,5 @@ False
 - MACD
 - KDJ
 - BOLL
+- ABS
+- SUM
