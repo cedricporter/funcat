@@ -4,29 +4,45 @@
 #
 
 import numpy as np
+import talib
 
 from .utils import FormulaException
 from .time_series import PriceSeries, NumericSeries, BoolSeries, fit_series
 
 
-class MovingAverageSeries(NumericSeries):
-    """均线"""
-    def __init__(self, series, period):
-        import talib
+class OneArgumentSeries(NumericSeries):
+    func = talib.MA
+
+    def __init__(self, series, arg):
         if isinstance(series, NumericSeries):
             series = series.series
+            series[series == np.inf] = np.nan
             try:
-                series = talib.MA(series, period)
+                series = self.func(series, arg)
             except Exception as e:
                 raise FormulaException(e)
-        super(MovingAverageSeries, self).__init__(series)
-        self.extra_create_kwargs["period"] = period
+        super(OneArgumentSeries, self).__init__(series)
+        self.extra_create_kwargs["arg"] = arg
+
+
+class MovingAverageSeries(OneArgumentSeries):
+    """http://www.tadoc.org/indicator/MA.htm"""
+    func = talib.MA
+
+
+class WeightedMovingAverageSeries(OneArgumentSeries):
+    """http://www.tadoc.org/indicator/WMA.htm"""
+    func = talib.WMA
+
+
+class ExponentialMovingAverageSeries(OneArgumentSeries):
+    """http://www.fmlabs.com/reference/default.htm?url=ExpMA.htm"""
+    func = talib.EMA
 
 
 class SumSeries(NumericSeries):
     """求和"""
     def __init__(self, series, period):
-        import talib
         if isinstance(series, NumericSeries):
             series = series.series
             try:
@@ -37,6 +53,19 @@ class SumSeries(NumericSeries):
                 raise FormulaException(e)
         super(SumSeries, self).__init__(series)
         self.extra_create_kwargs["period"] = period
+
+
+class AbsSeries(NumericSeries):
+    def __init__(self, series):
+        if isinstance(series, NumericSeries):
+            series = series.series
+            try:
+                series[series == np.inf] = 0
+                series[series == -np.inf] = 0
+                series = np.abs(series)
+            except Exception as e:
+                raise FormulaException(e)
+        super(AbsSeries, self).__init__(series)
 
 
 def CrossOver(s1, s2):
@@ -122,5 +151,6 @@ def llv(s, n):
     return NumericSeries(result)
 
 
-def iif(condition, true_statement, false_statement):
-    return true_statement if condition else false_statement
+# FIXME bug
+# def iif(condition, true_statement, false_statement):
+#     return true_statement if condition else false_statement

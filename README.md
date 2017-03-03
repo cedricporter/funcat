@@ -16,78 +16,82 @@ pip install -U funcat
 ## API
 ### 行情变量
 
-- 开盘价：`OPEN` `O` `o`
-- 收盘价：`CLOSE` `C` `c`
-- 最高价：`HIGH` `H` `h`
-- 最低价：`LOW` `L` `l`
-- 成交量：`VOLUME` `V` `v`
+- 开盘价：`OPEN` `O`
+- 收盘价：`CLOSE` `C`
+- 最高价：`HIGH` `H`
+- 最低价：`LOW` `L`
+- 成交量：`VOLUME` `V`
 
 ### 工具函数
 
-- n天前的数据：`REF` `ref`
+- n天前的数据：`REF`
 ``` python
 REF(C, 10)  # 10天前的收盘价
 ```
 
-- 均线：`MA` `ma`
+- 均线：`MA`
 ``` python
 MA(C, 60)  # 60日均线
 ```
 
-- 金叉判断：`CROSS` `cross`
+- 金叉判断：`CROSS`
 ``` python
 CROSS(MA(C, 5), MA(C, 10))  # 5日均线上穿10日均线
 ```
 
-- 两个序列取最小值：`MIN` `minimum`
+- 两个序列取最小值：`MIN`
 ``` python
 MIN(O, C)  # K线实体的最低价
 ```
 
-- 两个序列取最大值：`MAX` `maximum`
+- 两个序列取最大值：`MAX`
 ``` python
 MAX(O, C)  # K线实体的最高价
 ```
 
-- n天都满足条件：`EVERY` `every`
+- n天都满足条件：`EVERY`
 ``` python
 EVERY(C > MA(C, 5), 10)  # 最近10天收盘价都大于5日均线
 ```
 
-- n天内满足条件的天数：`COUNT` `count`
+- n天内满足条件的天数：`COUNT`
 ``` python
 COUNT(C > O, 10)  # 最近10天收阳线的天数
 ```
 
-- n天内最大值：`HHV` `hhv`
+- n天内最大值：`HHV`
 ``` python
 HHV(MAX(O, C), 60)  # 最近60天K线实体的最高价
 ```
 
-- n天内最小值：`LLV` `llv`
+- n天内最小值：`LLV`
 ``` python
 LLV(MIN(O, C), 60)  # 最近60天K线实体的最低价
 ```
 
-- 求和n日数据 `SUM` `sum`
+- 求和n日数据 `SUM`
 ``` python
 SUM(C, 10)  # 求和10天的收盘价
+
+- 求绝对值 `ABS`
+``` python
+ABS(C - O)
 ```
 
 还有更多的技术指标还在实现中，欢迎提交pr一起实现。
 
 ## 自定义公式示例
-[DMA指标](http://wiki.mbalib.com/wiki/DMA)。DMA指标（Different of Moving Average）又叫平行线差指标，是目前股市分析技术指标中的一种中短期指标，它常用于大盘指数和个股的研判。
+[KDJ指标](http://wiki.mbalib.com/wiki/%E9%9A%8F%E6%9C%BA%E6%8C%87%E6%A0%87)。随机指标（KDJ）由 George C．Lane 创制。它综合了动量观念、强弱指标及移动平均线的优点，用来度量股价脱离价格正常范围的变异程度。
 
 ``` python
-M1 = 10
-M2 = 50
-M3 = 10
+N, M1, M2 = 9, 3, 3
 
-DDD = MA(CLOSE, M1) - MA(CLOSE, M2)
-AMA = MA(DDD, M3)
+RSV = (CLOSE - LLV(LOW, N)) / (HHV(HIGH, N) - LLV(LOW, N)) * 100
+K = EMA(RSV, (M1 * 2 - 1))
+D = EMA(K, (M2 * 2 - 1))
+J = K * 3 - D * 2
 
-print(DDD, AMA)
+print(K, D, J)
 ```
 
 
@@ -205,9 +209,8 @@ False
 为了更高的性能，可以自定义Backend使用本地数据。这样可以极大地提高运行速度。
 
 ## TODO
-- EMA
+talib常用指标
 - MACD
-- KDJ
 - BOLL
-- ABS
-- SUM
+- SAR
+- IF

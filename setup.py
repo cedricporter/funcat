@@ -3,6 +3,7 @@
 # Author: Hua Liang[Stupid ET] <et@everet.org>
 #
 
+from os.path import dirname, join
 from setuptools import (
     find_packages,
     setup,
@@ -11,9 +12,12 @@ from setuptools import (
 from pip.req import parse_requirements
 
 
+with open(join(dirname(__file__), 'funcat/VERSION.txt'), 'rb') as f:
+    version = f.read().decode('ascii').strip()
+
 setup(
     name='funcat',
-    version='0.0.14',
+    version=version,
     description='funcat',
     packages=find_packages(exclude=[]),
     author='Hua Liang',
