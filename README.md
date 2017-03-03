@@ -7,7 +7,7 @@ Funcat 将同花顺、通达信等的公式移植到了 Python 中。
 
 ## 安装
 ```
-pip install -U funcat
+pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -U funcat
 ```
 
 ## notebooks 教程
