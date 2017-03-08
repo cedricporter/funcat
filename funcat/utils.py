@@ -51,6 +51,11 @@ def get_int_date(date):
     except:
         pass
 
+    if isinstance(date, (datetime.date)):
+        return int(date.strftime("%Y%m%d"))
+
+    raise ValueError("unknown date {}".format(date))
+
 
 def get_str_date_from_int(date_int):
     try:

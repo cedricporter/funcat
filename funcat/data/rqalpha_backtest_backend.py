@@ -10,7 +10,7 @@ from .backend import DataBackend
 from ..utils import get_date_from_int
 
 
-class RQAlphaDataBackend(DataBackend):
+class RQAlphaBacktestDataBackend(DataBackend):
     """
     目前仅支持日数据
     """
