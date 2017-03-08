@@ -22,8 +22,9 @@ class OneArgumentSeries(NumericSeries):
     def __init__(self, series, arg):
         if isinstance(series, NumericSeries):
             series = series.series
-            series[series == np.inf] = np.nan
+
             try:
+                series[series == np.inf] = np.nan
                 series = self.func(series, arg)
             except Exception as e:
                 raise FormulaException(e)

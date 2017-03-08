@@ -225,7 +225,23 @@ False
 ## DataBackend
 默认实现了一个从 tushare 上面实时拉数据选股的 Backend。
 
-还有一个 [RQAlpha](https://github.com/ricequant/rqalpha) 的 Backend，就可以在 RQAlpha 回测引擎中使用 funcat 的 API。
+还有一个 [RQAlpha](https://github.com/ricequant/rqalpha) 的 Backend 。
+
+安装依赖库 [RQAlpha](https://github.com/ricequant/rqalpha)：
+
+``` bash
+pip install rqalpha
+rqalpha update_bundle  # 更新数据
+```
+
+替换 DataBackend 为 RQAlpha 的 DataProxy，这样可以从 RQAlpha 的 bundle 中获取数据。
+
+``` python
+from funcat.data.rqalpha_data_backend import RQAlphaDataBackend
+from funcat import *
+
+set_data_backend(RQAlphaDataBackend("~/.rqalpha/bundle"))
+```
 
 为了更高的性能，可以自定义Backend使用本地数据。这样可以极大地提高运行速度。
 

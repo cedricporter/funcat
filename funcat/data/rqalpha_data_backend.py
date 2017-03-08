@@ -27,6 +27,10 @@ class RQAlphaDataBackend(DataBackend):
             print("-" * 50)
             raise
 
+        # FIXME
+        import warnings
+        warnings.simplefilter(action="ignore", category=FutureWarning)
+
         from rqalpha.data.base_data_source import BaseDataSource
         from rqalpha.data.data_proxy import DataProxy
 
@@ -48,8 +52,12 @@ class RQAlphaDataBackend(DataBackend):
         bars = self.data_proxy.history_bars(
             order_book_id, bar_count, "1d", field=None,
             dt=datetime.datetime.combine(end, datetime.time(23, 59, 59)))
-        origin_bars = bars = bars.astype([('datetime', '<u8'), ('open', '<f8'), ('close', '<f8'),
-                                          ('high', '<f8'), ('low', '<f8'), ('volume', '<f8'), ('total_turnover', '<f8')])
+        if bars is None or len(bars) == 0:
+            raise KeyError("empty bars {}".format(order_book_id))
+        bars = bars.copy()
+        origin_bars = bars = bars.astype([
+            ('datetime', '<u8'), ('open', '<f8'), ('close', '<f8'),
+            ('high', '<f8'), ('low', '<f8'), ('volume', '<f8'), ('total_turnover', '<f8')])
 
         dtype = copy.deepcopy(bars.dtype)
         names = list(dtype.names)
