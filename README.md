@@ -1,7 +1,7 @@
 # Funcat
-Funcat 将同花顺、通达信等的公式移植到了 Python 中。
+Funcat 将同花顺、通达信、文华财经等的公式移植到了 Python 中。
 
-同花顺、通达信等公式的表达十分简洁，适合做技术分析。
+同花顺、通达信、文华财经麦语言等公式的表达十分简洁，适合做技术分析。
 
 苦于 Python 缺乏这种领域特定语言的表达能力，所以用 Python 基于 numpy 实现了一套。
 
@@ -82,7 +82,7 @@ ABS(C - O)
 还有更多的技术指标还在实现中，欢迎提交pr一起实现。
 
 ## 自定义公式示例
-[KDJ指标](http://wiki.mbalib.com/wiki/%E9%9A%8F%E6%9C%BA%E6%8C%87%E6%A0%87)。随机指标（KDJ）由 George C．Lane 创制。它综合了动量观念、强弱指标及移动平均线的优点，用来度量股价脱离价格正常范围的变异程度。
+[KDJ指标](http://wiki.mbalib.com/wiki/KDJ)。随机指标（KDJ）由 George C．Lane 创制。它综合了动量观念、强弱指标及移动平均线的优点，用来度量股价脱离价格正常范围的变异程度。
 
 ``` python
 N, M1, M2 = 9, 3, 3
@@ -95,6 +95,25 @@ J = K * 3 - D * 2
 print(K, D, J)
 ```
 
+[DMI指标](http://wiki.mbalib.com/wiki/DMI)。动向指数又叫移动方向指数或趋向指数。是属于趋势判断的技术性指标，其基本原理是通过分析股票价格在上升及下跌过程中供需关系的均衡点，即供需关系受价格变动之影响而发生由均衡到失衡的循环过程，从而提供对趋势判断的依据。
+对于 DMI 这个指标，你会发现 TALib 算出来的结果，和同花顺等软件的结果不一样，我对比了下实现方式，发现，是因为同花顺的公式和 TALib 的计算公式不一样，对于这种情况，我们把同花顺的公式搬过来，就可以算出和同花顺一样的结果。
+
+``` python
+M1, M2 = 14, 6
+
+TR = SUM(MAX(MAX(HIGH - LOW, ABS(HIGH - REF(CLOSE, 1))), ABS(LOW - REF(CLOSE, 1))), M1)
+HD = HIGH - REF(HIGH, 1)
+LD = REF(LOW, 1) - LOW
+
+DMP = SUM(IF((HD > 0) & (HD > LD), HD, 0), M1)
+DMM = SUM(IF((LD > 0) & (LD > HD), LD, 0), M1)
+DI1 = DMP * 100 / TR
+DI2 = DMM * 100 / TR
+ADX = MA(ABS(DI2 - DI1) / (DI1 + DI2) * 100, M2)
+ADXR = (ADX + REF(ADX, M2)) / 2
+
+print(DI1, DI2, ADX, ADXR)
+```
 
 ## 选股
 
@@ -214,4 +233,3 @@ talib常用指标
 - MACD
 - BOLL
 - SAR
-- IF

@@ -30,6 +30,7 @@ from .func import (
     hhv,
     llv,
     Ref,
+    iif,
 )
 from .context import (
     ExecutionContext as funcat_execution_context,
@@ -65,7 +66,7 @@ EVERY = every
 COUNT = count
 HHV = hhv
 LLV = llv
-# IF = IIF = iif
+IF = IIF = iif
 
 S = set_current_stock
 T = set_current_date

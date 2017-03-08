@@ -7,7 +7,13 @@ import numpy as np
 import talib
 
 from .utils import FormulaException
-from .time_series import PriceSeries, NumericSeries, BoolSeries, fit_series
+from .time_series import (
+    PriceSeries,
+    NumericSeries,
+    BoolSeries,
+    fit_series,
+    get_series,
+)
 
 
 class OneArgumentSeries(NumericSeries):
@@ -91,14 +97,16 @@ def Ref(s1, n):
 def minimum(s1, s2):
     if len(s1) == 0 or len(s2) == 0:
         raise FormulaException("minimum size == 0")
-    s = np.minimum(s1.series, s2.series)
+    series1, series2 = fit_series(s1.series, s2.series)
+    s = np.minimum(series1, series2)
     return NumericSeries(s)
 
 
 def maximum(s1, s2):
     if len(s1) == 0 or len(s2) == 0:
         raise FormulaException("maximum size == 0")
-    s = np.maximum(s1.series, s2.series)
+    series1, series2 = fit_series(s1.series, s2.series)
+    s = np.maximum(series1, series2)
     return NumericSeries(s)
 
 
@@ -151,6 +159,13 @@ def llv(s, n):
     return NumericSeries(result)
 
 
-# FIXME bug
-# def iif(condition, true_statement, false_statement):
-#     return true_statement if condition else false_statement
+def iif(condition, true_statement, false_statement):
+    series1 = get_series(true_statement)
+    series2 = get_series(false_statement)
+    series1, series2 = fit_series(series1, series2)
+    cond_series = condition.series[-len(series1):]
+
+    series = series2.copy()
+    series[cond_series] = series1[cond_series]
+
+    return NumericSeries(series)

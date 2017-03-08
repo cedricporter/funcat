@@ -131,6 +131,12 @@ class TimeSeries(object):
     def __bool__(self):
         return len(self) > 0 and bool(self.value)
 
+    def __and__(self, other):
+        return BoolSeries(self.series & other.series)
+
+    def __or__(self, other):
+        return BoolSeries(self.series | other.series)
+
     # fix bug in python 2
     __nonzero__ = __bool__
 
