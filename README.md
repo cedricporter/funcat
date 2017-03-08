@@ -237,12 +237,10 @@ False
 ## DataBackend
 默认实现了一个从 tushare 上面实时拉数据选股的 Backend。
 
-还有一个 [RQAlpha](https://github.com/ricequant/rqalpha) 的 Backend 。
-
-安装依赖库 [RQAlpha](https://github.com/ricequant/rqalpha)：
+还有一个 [RQAlpha](https://github.com/ricequant/rqalpha) 的 Backend，使用它可以为我们提供本地的数据源，比从 tushare 拉数据速度更有优势。
 
 ``` bash
-pip install rqalpha
+pip install rqalpha    # 安装依赖库 RQAlpha
 rqalpha update_bundle  # 更新数据
 ```
 
@@ -255,7 +253,7 @@ from funcat import *
 set_data_backend(RQAlphaDataBackend("~/.rqalpha/bundle"))
 ```
 
-为了更高的性能，可以自定义Backend使用本地数据。这样可以极大地提高运行速度。
+为了更高的性能，您也可以自定义Backend使用本地数据。这样可以极大地提高运行速度。
 
 ## TODO
 talib常用指标
