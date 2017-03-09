@@ -6,7 +6,7 @@
 import numpy as np
 import talib
 
-from .utils import FormulaException
+from .utils import FormulaException, rolling_window
 from .time_series import (
     PriceSeries,
     NumericSeries,
@@ -138,10 +138,9 @@ def hhv(s, n):
         result = np.full(size, 0, dtype=np.float64)
     except ValueError as e:
         raise FormulaException(e)
-    for i in range(size - 1, 0, -1):
-        s = series[-n:]
-        result[i] = s.max()
-        series = series[:-1]
+
+    result = np.max(rolling_window(series, n), 1)
+
     return NumericSeries(result)
 
 
@@ -153,10 +152,9 @@ def llv(s, n):
         result = np.full(size, 0, dtype=np.float64)
     except ValueError as e:
         raise FormulaException(e)
-    for i in range(size - 1, 0, -1):
-        s = series[-n:]
-        result[i] = s.min()
-        series = series[:-1]
+
+    result = np.min(rolling_window(series, n), 1)
+
     return NumericSeries(result)
 
 

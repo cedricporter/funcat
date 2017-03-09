@@ -8,6 +8,7 @@ from __future__ import division
 import inspect
 import datetime
 
+import numpy as np
 try:
     from functools import lru_cache
 except ImportError:
@@ -73,3 +74,12 @@ def get_date_from_int(date_int):
     date_str = get_str_date_from_int(date_int)
 
     return datetime.datetime.strptime(date_str, "%Y-%m-%d").date()
+
+
+def rolling_window(a, window):
+    '''
+    copy from http://stackoverflow.com/questions/6811183/rolling-window-for-1d-arrays-in-numpy
+    '''
+    shape = a.shape[:-1] + (a.shape[-1] - window + 1, window)
+    strides = a.strides + (a.strides[-1], )
+    return np.lib.stride_tricks.as_strided(a, shape=shape, strides=strides)
