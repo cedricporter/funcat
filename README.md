@@ -1,4 +1,8 @@
 # Funcat
+
+[![PyPI](https://img.shields.io/pypi/v/funcat.svg)](https://pypi.python.org/pypi/funcat)
+[![PythonVersion](https://img.shields.io/pypi/pyversions/funcat.svg)](https://pypi.python.org/pypi/funcat)
+
 Funcat 将同花顺、通达信、文华财经等的公式移植到了 Python 中。
 
 同花顺、通达信、文华财经麦语言等公式的表达十分简洁，适合做技术分析。
