@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Author: Hua Liang[Stupid ET] <et@everet.org>
 #
 
 
@@ -31,6 +30,7 @@ from .func import (
     llv,
     Ref,
     iif,
+    MACDSeries,
 )
 from .context import (
     ExecutionContext as funcat_execution_context,
@@ -70,6 +70,8 @@ IF = IIF = iif
 
 S = set_current_stock
 T = set_current_date
+
+MACD = MACDSeries(dynamic_update=True)
 
 funcat_execution_context(date=20170104,
                          stock="000001.XSHG",

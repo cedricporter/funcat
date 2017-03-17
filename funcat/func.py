@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Author: Hua Liang[Stupid ET] <et@everet.org>
 #
 
 import numpy as np
@@ -13,6 +12,8 @@ from .time_series import (
     BoolSeries,
     fit_series,
     get_series,
+    get_bars,
+    ensure_timeseries,
 )
 
 
@@ -82,6 +83,7 @@ def CrossOver(s1, s2):
     :returns: bool序列
     :rtype: BoolSeries
     """
+    s1, s2 = ensure_timeseries(s1), ensure_timeseries(s2)
     series1, series2 = fit_series(s1.series, s2.series)
     cond1 = series1 > series2
     series1, series2 = fit_series(s1[1].series, s2[1].series)
@@ -98,6 +100,7 @@ def Ref(s1, n):
 def minimum(s1, s2):
     if len(s1) == 0 or len(s2) == 0:
         raise FormulaException("minimum size == 0")
+    s1, s2 = ensure_timeseries(s1), ensure_timeseries(s2)
     series1, series2 = fit_series(s1.series, s2.series)
     s = np.minimum(series1, series2)
     return NumericSeries(s)
@@ -106,6 +109,7 @@ def minimum(s1, s2):
 def maximum(s1, s2):
     if len(s1) == 0 or len(s2) == 0:
         raise FormulaException("maximum size == 0")
+    s1, s2 = ensure_timeseries(s1), ensure_timeseries(s2)
     series1, series2 = fit_series(s1.series, s2.series)
     s = np.maximum(series1, series2)
     return NumericSeries(s)
@@ -168,3 +172,28 @@ def iif(condition, true_statement, false_statement):
     series[cond_series] = series1[cond_series]
 
     return NumericSeries(series)
+
+
+class MACDSeries(PriceSeries):
+    def __init__(self, fastperiod=12, slowperiod=26, signalperiod=9, series=None, dynamic_update=False):
+        super(MACDSeries, self).__init__(series, dynamic_update=dynamic_update)
+        self.extra_create_kwargs.update({
+            "fastperiod": fastperiod,
+            "slowperiod": slowperiod,
+            "signalperiod": signalperiod,
+        })
+
+    def __call__(self, fastperiod=12, slowperiod=26, signalperiod=9):
+        return MACDSeries(fastperiod, slowperiod, signalperiod, dynamic_update=True)
+
+    def _ensure_series_update(self):
+        if self._dynamic_update:
+            bars = get_bars()
+            if len(bars) > 0:
+                close_arr = bars["close"]
+                DIF, DEM, OSC = talib.MACD(
+                    close_arr, **self.extra_create_kwargs)
+                OSC *= 2
+                self._series = OSC
+            else:
+                self._series = bars

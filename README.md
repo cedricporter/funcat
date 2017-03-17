@@ -2,6 +2,7 @@
 
 [![PyPI](https://img.shields.io/pypi/v/funcat.svg)](https://pypi.python.org/pypi/funcat)
 [![PythonVersion](https://img.shields.io/pypi/pyversions/funcat.svg)](https://pypi.python.org/pypi/funcat)
+[![License](https://img.shields.io/pypi/l/funcat.svg)](https://pypi.python.org/pypi/funcat)
 
 Funcat 将同花顺、通达信、文华财经等的公式移植到了 Python 中。
 
@@ -31,11 +32,6 @@ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -U funcat
 - n天前的数据：`REF`
 ``` python
 REF(C, 10)  # 10天前的收盘价
-```
-
-- 均线：`MA`
-``` python
-MA(C, 60)  # 60日均线
 ```
 
 - 金叉判断：`CROSS`
@@ -81,6 +77,20 @@ SUM(C, 10)  # 求和10天的收盘价
 - 求绝对值 `ABS`
 ``` python
 ABS(C - O)
+```
+
+### 指标
+
+- 均线：`MA`
+``` python
+MA(C, 60)  # 60日均线
+```
+
+- 平滑异同移动平均线：`MACD`
+``` python
+MACD              # 获取当前MACD
+CROSS(MACD, 0)    # MACD金叉
+CROSS(0, MACD)    # MACD死叉
 ```
 
 ### 条件「和」与「或」
@@ -261,6 +271,5 @@ set_data_backend(RQAlphaDataBackend("~/.rqalpha/bundle"))
 
 ## TODO
 talib常用指标
-- MACD
 - BOLL
 - SAR

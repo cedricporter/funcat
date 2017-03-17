@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Author: Hua Liang[Stupid ET] <et@everet.org>
 #
 
 from __future__ import division
@@ -53,6 +52,13 @@ def get_series(val):
         return val.series
     else:
         return DuplicateNumericSeries(val).series
+
+
+def ensure_timeseries(series):
+    if isinstance(series, TimeSeries):
+        return series
+    else:
+        return DuplicateNumericSeries(series)
 
 
 class TimeSeries(object):
@@ -158,11 +164,15 @@ class NumericSeries(TimeSeries):
 
     def __getitem__(self, index):
         assert isinstance(index, int) and index >= 0
-        return self.__class__(self.series[:len(self.series) - index], **self.extra_create_kwargs)
+        return self.__class__(series=self.series[:len(self.series) - index], **self.extra_create_kwargs)
 
 
 class DuplicateNumericSeries(NumericSeries):
-    def __init__(self, val):
+    def __init__(self, series):
+        try:
+            val = series[-1]
+        except:
+            val = series
         super(DuplicateNumericSeries, self).__init__(np.full(5000, val, dtype=np.float64))
 
 

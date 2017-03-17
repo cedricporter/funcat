@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Author: Hua Liang[Stupid ET] <et@everet.org>
 #
+
 import copy
 import os
 import datetime
@@ -16,7 +16,7 @@ class RQAlphaDataBackend(DataBackend):
     """
     目前仅支持日数据
     """
-    skip_suspended = False
+    skip_suspended = True
 
     def __init__(self, bundle_path="~/.rqalpha/bundle", start_date="2010-01-01"):
         try:

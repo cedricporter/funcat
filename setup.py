@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Author: Hua Liang[Stupid ET] <et@everet.org>
 #
 
 from os.path import dirname, join
@@ -23,6 +22,7 @@ setup(
     author='Hua Liang',
     url='https://github.com/cedricporter/funcat',
     author_email='et@everet.org',
+    license='Apache License v2',
     package_data={'': ['*.*']},
     install_requires=[str(ir.req) for ir in parse_requirements("requirements.txt", session=False)],
     zip_safe=False,
