@@ -81,55 +81,64 @@ class TimeSeries(object):
     @wrap_formula_exc
     def __lt__(self, other):
         s1, s2 = fit_series(self.series, get_series(other))
-        series = s1 < s2
+        with np.errstate(invalid='ignore'):
+            series = s1 < s2
         return BoolSeries(series)
 
     @wrap_formula_exc
     def __gt__(self, other):
         s1, s2 = fit_series(self.series, get_series(other))
-        series = s1 > s2
+        with np.errstate(invalid='ignore'):
+            series = s1 > s2
         return BoolSeries(series)
 
     @wrap_formula_exc
     def __eq__(self, other):
         s1, s2 = fit_series(self.series, get_series(other))
-        series = s1 == s2
+        with np.errstate(invalid='ignore'):
+            series = s1 == s2
         return BoolSeries(series)
 
     @wrap_formula_exc
     def __ge__(self, other):
         s1, s2 = fit_series(self.series, get_series(other))
-        series = s1 >= s2
+        with np.errstate(invalid='ignore'):
+            series = s1 >= s2
         return BoolSeries(series)
 
     @wrap_formula_exc
     def __le__(self, other):
         s1, s2 = fit_series(self.series, get_series(other))
-        series = s1 <= s2
+        with np.errstate(invalid='ignore'):
+            series = s1 <= s2
         return BoolSeries(series)
 
     @wrap_formula_exc
     def __sub__(self, other):
         s1, s2 = fit_series(self.series, get_series(other))
-        series = s1 - s2
+        with np.errstate(invalid='ignore'):
+            series = s1 - s2
         return NumericSeries(series)
 
     @wrap_formula_exc
     def __add__(self, other):
         s1, s2 = fit_series(self.series, get_series(other))
-        series = s1 + s2
+        with np.errstate(invalid='ignore'):
+            series = s1 + s2
         return NumericSeries(series)
 
     @wrap_formula_exc
     def __mul__(self, other):
         s1, s2 = fit_series(self.series, get_series(other))
-        series = s1 * s2
+        with np.errstate(invalid='ignore'):
+            series = s1 * s2
         return NumericSeries(series)
 
     @wrap_formula_exc
     def __truediv__(self, other):
         s1, s2 = fit_series(self.series, get_series(other))
-        series = s1 / s2
+        with np.errstate(invalid='ignore'):
+            series = s1 / s2
         return NumericSeries(series)
 
     __div__ = __truediv__

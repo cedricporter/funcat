@@ -6,6 +6,7 @@ from __future__ import division
 
 import inspect
 import datetime
+import functools
 
 import numpy as np
 try:
@@ -82,3 +83,11 @@ def rolling_window(a, window):
     shape = a.shape[:-1] + (a.shape[-1] - window + 1, window)
     strides = a.strides + (a.strides[-1], )
     return np.lib.stride_tricks.as_strided(a, shape=shape, strides=strides)
+
+
+def handle_numpy_warning(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        with np.errstate(invalid='ignore'):
+            return func(*args, **kwargs)
+    return wrapper

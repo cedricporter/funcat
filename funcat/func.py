@@ -5,7 +5,7 @@
 import numpy as np
 import talib
 
-from .utils import FormulaException, rolling_window
+from .utils import FormulaException, rolling_window, handle_numpy_warning
 from .time_series import (
     PriceSeries,
     NumericSeries,
@@ -76,6 +76,7 @@ class AbsSeries(NumericSeries):
         super(AbsSeries, self).__init__(series)
 
 
+@handle_numpy_warning
 def CrossOver(s1, s2):
     """s1金叉s2
     :param s1:
@@ -97,6 +98,7 @@ def Ref(s1, n):
     return s1[n]
 
 
+@handle_numpy_warning
 def minimum(s1, s2):
     if len(s1) == 0 or len(s2) == 0:
         raise FormulaException("minimum size == 0")
@@ -106,6 +108,7 @@ def minimum(s1, s2):
     return NumericSeries(s)
 
 
+@handle_numpy_warning
 def maximum(s1, s2):
     if len(s1) == 0 or len(s2) == 0:
         raise FormulaException("maximum size == 0")
@@ -115,6 +118,7 @@ def maximum(s1, s2):
     return NumericSeries(s)
 
 
+@handle_numpy_warning
 def count(cond, n):
     # TODO lazy compute
     series = cond.series
@@ -130,10 +134,12 @@ def count(cond, n):
     return NumericSeries(result)
 
 
+@handle_numpy_warning
 def every(cond, n):
     return count(cond, n) == n
 
 
+@handle_numpy_warning
 def hhv(s, n):
     # TODO lazy compute
     series = s.series
@@ -148,6 +154,7 @@ def hhv(s, n):
     return NumericSeries(result)
 
 
+@handle_numpy_warning
 def llv(s, n):
     # TODO lazy compute
     series = s.series
@@ -162,6 +169,7 @@ def llv(s, n):
     return NumericSeries(result)
 
 
+@handle_numpy_warning
 def iif(condition, true_statement, false_statement):
     series1 = get_series(true_statement)
     series2 = get_series(false_statement)
