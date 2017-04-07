@@ -14,7 +14,7 @@ __main_version__ = "%s.%s.x" % (version_info[0], version_info[1])
 del pkgutil
 
 
-from .time_series import PriceSeries
+from .time_series import MarketDataSeries
 from .func import (
     SumSeries,
     AbsSeries,
@@ -45,7 +45,7 @@ from .data.tushare_backend import TushareDataBackend
 
 # close: CLOSE, C, c
 for name in ["open", "high", "low", "close", "volume"]:
-    cls = type("{}Series".format(name.capitalize()), (PriceSeries, ), {"name": name})
+    cls = type("{}Series".format(name.capitalize()), (MarketDataSeries, ), {"name": name})
     obj = cls(dynamic_update=True)
     for var in [name[0], name[0].upper(), name.upper()]:
         globals()[var] = obj

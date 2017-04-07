@@ -185,9 +185,9 @@ class DuplicateNumericSeries(NumericSeries):
         super(DuplicateNumericSeries, self).__init__(np.full(5000, val, dtype=np.float64))
 
 
-class PriceSeries(NumericSeries):
+class MarketDataSeries(NumericSeries):
     def __init__(self, series=None, dynamic_update=False):
-        super(PriceSeries, self).__init__(series)
+        super(MarketDataSeries, self).__init__(series)
         self._dynamic_update = dynamic_update
 
     def _ensure_series_update(self):
@@ -202,7 +202,7 @@ class PriceSeries(NumericSeries):
     @property
     def series(self):
         self._ensure_series_update()
-        return super(PriceSeries, self).series
+        return super(MarketDataSeries, self).series
 
     @property
     def name(self):

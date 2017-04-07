@@ -7,7 +7,7 @@ import talib
 
 from .utils import FormulaException, rolling_window, handle_numpy_warning
 from .time_series import (
-    PriceSeries,
+    MarketDataSeries,
     NumericSeries,
     BoolSeries,
     fit_series,
@@ -182,7 +182,7 @@ def iif(condition, true_statement, false_statement):
     return NumericSeries(series)
 
 
-class MACDSeries(PriceSeries):
+class MACDSeries(MarketDataSeries):
     def __init__(self, fastperiod=12, slowperiod=26, signalperiod=9, series=None, dynamic_update=False):
         super(MACDSeries, self).__init__(series, dynamic_update=dynamic_update)
         self.extra_create_kwargs.update({
