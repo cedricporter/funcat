@@ -12,10 +12,11 @@ from .utils import get_int_date
 class ExecutionContext(object):
     stack = []
 
-    def __init__(self, date=None, stock=None, data_backend=None):
+    def __init__(self, date=None, stock=None, data_backend=None, freq="1d"):
         self._current_date = date
         self._stock = stock
         self._data_backend = data_backend
+        self._freq = freq
 
     def _push(self):
         self.stack.append(self)
@@ -58,6 +59,14 @@ class ExecutionContext(object):
         :param stock: "000002.XSHE"
         """
         cls.get_active()._stock = stock
+
+    @classmethod
+    def get_current_freq(cls):
+        return cls.get_active()._freq
+
+    @classmethod
+    def set_current_freq(cls, freq):
+        cls.get_active()._freq = freq
 
     @classmethod
     def get_current_stock(cls):

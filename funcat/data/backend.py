@@ -6,11 +6,12 @@
 class DataBackend(object):
     skip_suspended = True
 
-    def get_price(self, order_book_id, start, end):
+    def get_price(self, order_book_id, start, end, freq):
         """
         :param order_book_id: e.g. 000002.XSHE
         :param start: 20160101
         :param end: 20160201
+        :param freq: 1m 1d 5m 15m ...
         :returns:
         :rtype: numpy.rec.array
         """

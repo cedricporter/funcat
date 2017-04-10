@@ -4,20 +4,21 @@
 
 from __future__ import division
 
+import six
 import numpy as np
 
 from .utils import wrap_formula_exc, FormulaException
 from .context import ExecutionContext
 
 
-def get_bars():
+def get_bars(freq):
     data_backend = ExecutionContext.get_data_backend()
     current_date = ExecutionContext.get_current_date()
     stock = ExecutionContext.get_current_stock()
     start_date = data_backend.get_start_date()
 
     try:
-        bars = data_backend.get_price(stock, start=start_date, end=current_date)
+        bars = data_backend.get_price(stock, start=start_date, end=current_date, freq=freq)
     except KeyError:
         return np.array([])
 
@@ -186,18 +187,44 @@ class DuplicateNumericSeries(NumericSeries):
 
 
 class MarketDataSeries(NumericSeries):
-    def __init__(self, series=None, dynamic_update=False):
+    """MarketDataSeries
+
+    MarketDataSeries 与其他 TimeSeries 最大的区别是，
+    其值是通过动态根据当前时间和当前关注的标的更新
+    """
+    def __init__(self, series=None, dynamic_update=False, freq=None):
         super(MarketDataSeries, self).__init__(series)
         self._dynamic_update = dynamic_update
+        self._freq = freq
 
     def _ensure_series_update(self):
         if self._dynamic_update:
             # TODO: cache
-            bars = get_bars()
+            freq = self._freq if self._freq is not None else ExecutionContext.get_current_freq()
+            bars = get_bars(freq)
             if len(bars) > 0:
                 self._series = bars[self.name]
             else:
                 self._series = bars
+
+    def __getitem__(self, index):
+        if isinstance(index, int):
+            assert index >= 0
+
+        if isinstance(index, six.string_types):
+            unit = index[-1]
+            period = int(index[:-1])
+            assert unit in ["m", "d"]
+            assert period > 0
+            freq = index
+            # 因为是行情数据，所以需要动态更新
+            time_series = self.__class__(dynamic_update=True, freq=freq, **self.extra_create_kwargs)
+            print("__getitem__", "-" * 100)
+            print(freq)
+            print(type(time_series))
+            return time_series
+
+        return self.__class__(series=self.series[:len(self.series) - index], **self.extra_create_kwargs)
 
     @property
     def series(self):

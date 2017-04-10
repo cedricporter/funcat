@@ -36,7 +36,7 @@ class TushareDataBackend(DataBackend):
         return order_book_id.split(".")[0]
 
     @lru_cache(maxsize=4096)
-    def get_price(self, order_book_id, start, end):
+    def get_price(self, order_book_id, start, end, freq):
         """
         :param order_book_id: e.g. 000002.XSHE
         :param start: 20160101
@@ -44,6 +44,7 @@ class TushareDataBackend(DataBackend):
         :returns:
         :rtype: numpy.rec.array
         """
+        start_int, end_int = start, end
         start = get_str_date_from_int(start)
         end = get_str_date_from_int(end)
         code = self.convert_code(order_book_id)
@@ -52,11 +53,33 @@ class TushareDataBackend(DataBackend):
             (order_book_id.startswith("3") and order_book_id.endswith(".XSHE"))
             ):
             is_index = True
-        df = self.ts.get_k_data(code, start=start, end=end, index=is_index)
-        df["date"] = df["date"].apply(lambda x: int(x.replace("-", "")))
-        df = df.set_index("date")
+        ktype = freq
+        if freq[-1] == "m":
+            ktype = freq[:-1]
+        elif freq == "1d":
+            ktype = "D"
+
+        df = self.ts.get_k_data(code, start=start, end=end, index=is_index, ktype=ktype)
+
+        print("get_price 1")
+        print(freq)
+        print(df)
+
+        if freq[-1] == "m":
+            df["time"] = df["date"].apply(lambda x: int(x.split(" ")[1].replace(":", "")) * 100 * 1000)
+            df["date"] = df["date"].apply(lambda x: int(x.split(" ")[0].replace("-", "")))
+            df = df[df["date"] <= end_int]
+        elif freq == "1d":
+            df["date"] = df["date"].apply(lambda x: int(x.replace("-", "")))
+            df["time"] = 0
+
+        # df = df.set_index("date")
         del df["code"]
         arr = df.to_records()
+
+        print("get_price 2")
+        print(arr)
+
         return arr
 
     @lru_cache()
