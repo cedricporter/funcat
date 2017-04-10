@@ -61,10 +61,6 @@ class TushareDataBackend(DataBackend):
 
         df = self.ts.get_k_data(code, start=start, end=end, index=is_index, ktype=ktype)
 
-        print("get_price 1")
-        print(freq)
-        print(df)
-
         if freq[-1] == "m":
             df["time"] = df["date"].apply(lambda x: int(x.split(" ")[1].replace(":", "")) * 100 * 1000)
             df["date"] = df["date"].apply(lambda x: int(x.split(" ")[0].replace("-", "")))
@@ -76,9 +72,6 @@ class TushareDataBackend(DataBackend):
         # df = df.set_index("date")
         del df["code"]
         arr = df.to_records()
-
-        print("get_price 2")
-        print(arr)
 
         return arr
 

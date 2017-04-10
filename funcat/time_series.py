@@ -219,9 +219,6 @@ class MarketDataSeries(NumericSeries):
             freq = index
             # 因为是行情数据，所以需要动态更新
             time_series = self.__class__(dynamic_update=True, freq=freq, **self.extra_create_kwargs)
-            print("__getitem__", "-" * 100)
-            print(freq)
-            print(type(time_series))
             return time_series
 
         return self.__class__(series=self.series[:len(self.series) - index], **self.extra_create_kwargs)

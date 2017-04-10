@@ -96,6 +96,10 @@ def set_current_date(date):
     ExecutionContext.set_current_date(date)
 
 
+def set_current_freq(freq):
+    ExecutionContext.set_current_freq(freq)
+
+
 def symbol(order_book_id):
     """获取股票代码对应的名字
     :param order_book_id:
