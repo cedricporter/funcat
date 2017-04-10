@@ -38,6 +38,7 @@ from .context import (
     set_current_stock,
     set_current_date,
     set_data_backend,
+    set_current_freq,
 )
 from .helper import select
 from .data.tushare_backend import TushareDataBackend
