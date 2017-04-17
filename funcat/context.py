@@ -12,8 +12,9 @@ from .utils import get_int_date
 class ExecutionContext(object):
     stack = []
 
-    def __init__(self, date=None, stock=None, data_backend=None, freq="1d"):
-        self._current_date = date
+    def __init__(self, date=None, stock=None, data_backend=None, freq="1d", start_date=datetime.date(1900, 1, 1)):
+        self._current_date = self._convert_date_to_int(date)
+        self._start_date = self._convert_date_to_int(start_date)
         self._stock = stock
         self._data_backend = data_backend
         self._freq = freq
@@ -34,6 +35,13 @@ class ExecutionContext(object):
     def __exit__(self, exc_type, exc_val, exc_tb):
         pass
 
+    def _convert_date_to_int(self, date):
+        if isinstance(date, six.string_types):
+            date = get_int_date(date)
+        elif isinstance(date, datetime.date):
+            date = int(date.strftime("%Y%m%d"))
+        return date
+
     @classmethod
     def get_active(cls):
         return cls.stack[-1]
@@ -43,15 +51,15 @@ class ExecutionContext(object):
         """set current simulation date
         :param date: string date, "2016-01-04"
         """
-        if isinstance(date, six.string_types):
-            date = get_int_date(date)
-        elif isinstance(date, datetime.date):
-            date = int(date.strftime("%Y%m%d"))
         cls.get_active()._current_date = date
 
     @classmethod
     def get_current_date(cls):
         return cls.get_active()._current_date
+
+    @classmethod
+    def get_start_date(cls):
+        return cls.get_active()._start_date
 
     @classmethod
     def set_current_stock(cls, stock):

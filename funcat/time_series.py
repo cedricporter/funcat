@@ -15,7 +15,7 @@ def get_bars(freq):
     data_backend = ExecutionContext.get_data_backend()
     current_date = ExecutionContext.get_current_date()
     stock = ExecutionContext.get_current_stock()
-    start_date = data_backend.get_start_date()
+    start_date = ExecutionContext.get_start_date()
 
     try:
         bars = data_backend.get_price(stock, start=start_date, end=current_date, freq=freq)

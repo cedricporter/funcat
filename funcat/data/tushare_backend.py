@@ -9,8 +9,6 @@ from ..utils import lru_cache, get_str_date_from_int, get_int_date
 
 
 class TushareDataBackend(DataBackend):
-    def __init__(self, start_date="2011-01-01"):
-        self.start_date = start_date
 
     @cached_property
     def ts(self):
@@ -99,12 +97,6 @@ class TushareDataBackend(DataBackend):
         df = self.ts.get_k_data("000001", index=True, start=start, end=end)
         trading_dates = [get_int_date(date) for date in df.date.tolist()]
         return trading_dates
-
-    @lru_cache()
-    def get_start_date(self):
-        """获取回溯开始时间
-        """
-        return self.start_date
 
     @lru_cache(maxsize=4096)
     def symbol(self, order_book_id):
