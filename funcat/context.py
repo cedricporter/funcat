@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
 
@@ -42,6 +41,9 @@ class ExecutionContext(object):
             date = int(date.strftime("%Y%m%d"))
         return date
 
+    def _set_current_date(self, date):
+        self._current_date = self._convert_date_to_int(date)
+
     @classmethod
     def get_active(cls):
         return cls.stack[-1]
@@ -51,7 +53,7 @@ class ExecutionContext(object):
         """set current simulation date
         :param date: string date, "2016-01-04"
         """
-        cls.get_active()._current_date = date
+        cls.get_active()._set_current_date(date)
 
     @classmethod
     def get_current_date(cls):
