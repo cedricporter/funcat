@@ -6,7 +6,7 @@ from __future__ import print_function
 
 import numpy as np
 
-from .context import ExecutionContext, set_current_stock, set_current_date, symbol
+from .context import ExecutionContext, set_current_security, set_current_date, symbol
 from .utils import getsourcelines, FormulaException, get_int_date
 
 
@@ -21,7 +21,7 @@ def suppress_numpy_warn(func):
 
 
 def choose(order_book_id, func, callback):
-    set_current_stock(order_book_id)
+    set_current_security(order_book_id)
     try:
         if func():
             date = ExecutionContext.get_current_date()

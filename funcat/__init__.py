@@ -35,7 +35,7 @@ from .func import (
 from .context import (
     ExecutionContext as funcat_execution_context,
     symbol,
-    set_current_stock,
+    set_current_security,
     set_current_date,
     set_data_backend,
     set_current_freq,
@@ -69,11 +69,11 @@ HHV = hhv
 LLV = llv
 IF = IIF = iif
 
-S = set_current_stock
+S = set_current_security
 T = set_current_date
 
 MACD = MACDSeries(dynamic_update=True)
 
 funcat_execution_context(date=20170104,
-                         stock="000001.XSHG",
+                         order_book_id="000001.XSHG",
                          data_backend=TushareDataBackend())._push()
