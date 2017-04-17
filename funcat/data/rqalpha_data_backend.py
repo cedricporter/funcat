@@ -7,6 +7,7 @@ import os
 import datetime
 
 import numpy as np
+from numpy.lib import recfunctions as rfn
 
 from .backend import DataBackend
 from ..utils import get_date_from_int, get_int_date
@@ -37,7 +38,7 @@ class RQAlphaDataBackend(DataBackend):
         self.analyse_start_date = start_date
         self.data_proxy = DataProxy(BaseDataSource(os.path.expanduser(bundle_path)))
 
-    def get_price(self, order_book_id, start, end):
+    def get_price(self, order_book_id, start, end, freq):
         """
         :param order_book_id: e.g. 000002.XSHE
         :param start: 20160101
@@ -45,13 +46,17 @@ class RQAlphaDataBackend(DataBackend):
         :returns:
         :rtype: numpy.rec.array
         """
+        assert freq == "1d"
+
         start = get_date_from_int(start)
         end = get_date_from_int(end)
 
         bar_count = (end - start).days
+
         bars = self.data_proxy.history_bars(
-            order_book_id, bar_count, "1d", field=None,
+            order_book_id, bar_count, freq, field=None,
             dt=datetime.datetime.combine(end, datetime.time(23, 59, 59)))
+
         if bars is None or len(bars) == 0:
             raise KeyError("empty bars {}".format(order_book_id))
         bars = bars.copy()
@@ -66,6 +71,7 @@ class RQAlphaDataBackend(DataBackend):
         bars = np.array(bars, dtype=dtype)
 
         bars["date"] = origin_bars["datetime"] / 1000000
+        bars = rfn.append_fields(bars, "time", np.zeros(len(bars), dtype="<u8"), usemask=False)
 
         return bars
 
