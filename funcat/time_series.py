@@ -14,11 +14,11 @@ from .context import ExecutionContext
 def get_bars(freq):
     data_backend = ExecutionContext.get_data_backend()
     current_date = ExecutionContext.get_current_date()
-    stock = ExecutionContext.get_current_stock()
+    order_book_id = ExecutionContext.get_current_security()
     start_date = ExecutionContext.get_start_date()
 
     try:
-        bars = data_backend.get_price(stock, start=start_date, end=current_date, freq=freq)
+        bars = data_backend.get_price(order_book_id, start=start_date, end=current_date, freq=freq)
     except KeyError:
         return np.array([])
 
@@ -26,7 +26,7 @@ def get_bars(freq):
     if len(bars) == 0:
         return bars
 
-    # if stock is suspend, just skip
+    # if security is suspend, just skip
     if data_backend.skip_suspended and bars["date"][-1] != current_date:
         return np.array([])
 

@@ -12,10 +12,10 @@ from .utils import get_int_date
 class ExecutionContext(object):
     stack = []
 
-    def __init__(self, date=None, stock=None, data_backend=None, freq="1d", start_date=datetime.date(1900, 1, 1)):
+    def __init__(self, date=None, order_book_id=None, data_backend=None, freq="1d", start_date=datetime.date(1900, 1, 1)):
         self._current_date = self._convert_date_to_int(date)
         self._start_date = self._convert_date_to_int(start_date)
-        self._stock = stock
+        self._order_book_id = order_book_id
         self._data_backend = data_backend
         self._freq = freq
 
@@ -33,7 +33,7 @@ class ExecutionContext(object):
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
-        pass
+        self._pop()
 
     def _convert_date_to_int(self, date):
         if isinstance(date, six.string_types):
@@ -62,11 +62,11 @@ class ExecutionContext(object):
         return cls.get_active()._start_date
 
     @classmethod
-    def set_current_stock(cls, stock):
-        """set current watching stock
-        :param stock: "000002.XSHE"
+    def set_current_security(cls, order_book_id):
+        """set current watching order_book_id
+        :param order_book_id: "000002.XSHE"
         """
-        cls.get_active()._stock = stock
+        cls.get_active()._order_book_id = order_book_id
 
     @classmethod
     def get_current_freq(cls):
@@ -77,13 +77,13 @@ class ExecutionContext(object):
         cls.get_active()._freq = freq
 
     @classmethod
-    def get_current_stock(cls):
-        return cls.get_active()._stock
+    def get_current_security(cls):
+        return cls.get_active()._order_book_id
 
     @classmethod
     def set_data_backend(cls, data_backend):
-        """set current watching stock
-        :param stock: "000002.XSHE"
+        """set current watching order_book_id
+        :param order_book_id: "000002.XSHE"
         """
         cls.get_active()._data_backend = data_backend
 
@@ -96,8 +96,8 @@ def set_data_backend(backend):
     ExecutionContext.set_data_backend(backend)
 
 
-def set_current_stock(stock):
-    ExecutionContext.set_current_stock(stock)
+def set_current_security(order_book_id):
+    ExecutionContext.set_current_security(order_book_id)
 
 
 def set_current_date(date):
