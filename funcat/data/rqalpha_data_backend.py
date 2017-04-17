@@ -19,7 +19,7 @@ class RQAlphaDataBackend(DataBackend):
     """
     skip_suspended = True
 
-    def __init__(self, bundle_path="~/.rqalpha/bundle", start_date="2010-01-01"):
+    def __init__(self, bundle_path="~/.rqalpha/bundle"):
         try:
             import rqalpha
         except ImportError:
@@ -28,14 +28,13 @@ class RQAlphaDataBackend(DataBackend):
             print("-" * 50)
             raise
 
-        # FIXME
-        import warnings
-        warnings.simplefilter(action="ignore", category=FutureWarning)
+        # # FIXME
+        # import warnings
+        # warnings.simplefilter(action="ignore", category=FutureWarning)
 
         from rqalpha.data.base_data_source import BaseDataSource
         from rqalpha.data.data_proxy import DataProxy
 
-        self.analyse_start_date = start_date
         self.data_proxy = DataProxy(BaseDataSource(os.path.expanduser(bundle_path)))
 
     def get_price(self, order_book_id, start, end, freq):
@@ -79,11 +78,6 @@ class RQAlphaDataBackend(DataBackend):
         """获取所有的
         """
         return sorted(self.data_proxy.all_instruments("CS").order_book_id.tolist())
-
-    def get_start_date(self):
-        """获取回溯开始时间
-        """
-        return str(self.analyse_start_date)
 
     def symbol(self, order_book_id):
         """获取order_book_id对应的名字

@@ -30,11 +30,6 @@ class DataBackend(object):
         """
         raise NotImplementedError
 
-    def get_start_date(self):
-        """获取回溯开始时间
-        """
-        raise NotImplementedError
-
     def symbol(self, order_book_id):
         """获取order_book_id对应的名字
         :param order_book_id str: 股票代码
