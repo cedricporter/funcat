@@ -59,14 +59,11 @@ class TushareDataBackend(DataBackend):
         df = self.ts.get_k_data(code, start=start, end=end, index=is_index, ktype=ktype)
 
         if freq[-1] == "m":
-            df["time"] = df["date"].apply(lambda x: int(x.split(" ")[1].replace(":", "")) * 100 * 1000)
-            df["date"] = df["date"].apply(lambda x: int(x.split(" ")[0].replace("-", "")))
-            df = df[df["date"] <= end_int]
+            df["datetime"] = df.apply(
+                lambda row: int(row["date"].split(" ")[0].replace("-", "")) * 1000000 + int(row["date"].split(" ")[1].replace(":", "")) * 100, axis=1)
         elif freq == "1d":
-            df["date"] = df["date"].apply(lambda x: int(x.replace("-", "")))
-            df["time"] = 0
+            df["datetime"] = df["date"].apply(lambda x: int(x.replace("-", "")) * 1000000)
 
-        # df = df.set_index("date")
         del df["code"]
         arr = df.to_records()
 
