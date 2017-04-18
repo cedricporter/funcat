@@ -4,6 +4,7 @@
 import numpy as np
 import talib
 
+from .context import ExecutionContext
 from .utils import FormulaException, rolling_window, handle_numpy_warning
 from .time_series import (
     MarketDataSeries,
@@ -182,20 +183,21 @@ def iif(condition, true_statement, false_statement):
 
 
 class MACDSeries(MarketDataSeries):
-    def __init__(self, fastperiod=12, slowperiod=26, signalperiod=9, series=None, dynamic_update=False):
-        super(MACDSeries, self).__init__(series, dynamic_update=dynamic_update)
+    def __init__(self, fastperiod=12, slowperiod=26, signalperiod=9, series=None, dynamic_update=False, freq=None):
+        super(MACDSeries, self).__init__(series, dynamic_update=dynamic_update, freq=freq)
         self.extra_create_kwargs.update({
             "fastperiod": fastperiod,
             "slowperiod": slowperiod,
             "signalperiod": signalperiod,
         })
 
-    def __call__(self, fastperiod=12, slowperiod=26, signalperiod=9):
-        return MACDSeries(fastperiod, slowperiod, signalperiod, dynamic_update=True)
+    def __call__(self, fastperiod=12, slowperiod=26, signalperiod=9, freq=None):
+        return MACDSeries(fastperiod, slowperiod, signalperiod, dynamic_update=True, freq=freq)
 
     def _ensure_series_update(self):
         if self._dynamic_update:
-            bars = get_bars()
+            freq = self._freq if self._freq is not None else ExecutionContext.get_current_freq()
+            bars = get_bars(freq)
             if len(bars) > 0:
                 close_arr = bars["close"]
                 DIF, DEM, OSC = talib.MACD(
