@@ -202,7 +202,7 @@ class MarketDataSeries(NumericSeries):
             freq = self._freq if self._freq is not None else ExecutionContext.get_current_freq()
             bars = get_bars(freq)
             if len(bars) > 0:
-                self._series = bars[self.name]
+                self._series = bars[self.name].astype(self.dtype)
             else:
                 self._series = bars
 
@@ -226,6 +226,10 @@ class MarketDataSeries(NumericSeries):
     def series(self):
         self._ensure_series_update()
         return super(MarketDataSeries, self).series
+
+    @property
+    def dtype(self):
+        raise NotImplementedError
 
     @property
     def name(self):

@@ -44,6 +44,9 @@ class ExecutionContext(object):
     def _set_current_date(self, date):
         self._current_date = self._convert_date_to_int(date)
 
+    def _set_start_date(self, date):
+        self._start_date = self._convert_date_to_int(date)
+
     @classmethod
     def get_active(cls):
         return cls.stack[-1]
@@ -58,6 +61,10 @@ class ExecutionContext(object):
     @classmethod
     def get_current_date(cls):
         return cls.get_active()._current_date
+
+    @classmethod
+    def set_start_date(cls, date):
+        cls.get_active()._set_start_date(date)
 
     @classmethod
     def get_start_date(cls):
@@ -100,6 +107,10 @@ def set_data_backend(backend):
 
 def set_current_security(order_book_id):
     ExecutionContext.set_current_security(order_book_id)
+
+
+def set_start_date(date):
+    ExecutionContext.set_start_date(date)
 
 
 def set_current_date(date):
