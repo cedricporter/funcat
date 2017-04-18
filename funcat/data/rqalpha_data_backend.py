@@ -58,18 +58,6 @@ class RQAlphaDataBackend(DataBackend):
         if bars is None or len(bars) == 0:
             raise KeyError("empty bars {}".format(order_book_id))
         bars = bars.copy()
-        origin_bars = bars = bars.astype([
-            ('datetime', '<u8'), ('open', '<f8'), ('close', '<f8'),
-            ('high', '<f8'), ('low', '<f8'), ('volume', '<f8'), ('total_turnover', '<f8')])
-
-        dtype = copy.deepcopy(bars.dtype)
-        names = list(dtype.names)
-        names[0] = "date"
-        dtype.names = names
-        bars = np.array(bars, dtype=dtype)
-
-        bars["date"] = origin_bars["datetime"] / 1000000
-        bars = rfn.append_fields(bars, "time", np.zeros(len(bars), dtype="<u8"), usemask=False)
 
         return bars
 
