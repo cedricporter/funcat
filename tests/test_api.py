@@ -9,7 +9,7 @@ from funcat import *
 
 def test_000001():
     from funcat.data.tushare_backend import TushareDataBackend
-    set_data_backend(TushareDataBackend("2016-01-01"))
+    set_data_backend(TushareDataBackend())
 
     T("20161216")
     S("000001.XSHG")
