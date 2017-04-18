@@ -4,6 +4,7 @@
 
 from __future__ import print_function
 
+import datetime
 import numpy as np
 
 from .context import ExecutionContext, set_current_stock, set_current_date, symbol
@@ -31,7 +32,9 @@ def choose(order_book_id, func, callback):
 
 
 @suppress_numpy_warn
-def select(func, start_date="2016-10-01", end_date=None, max_date="2050-01-01", callback=print):
+def select(func, start_date="2016-10-01", end_date=None, max_date=None, callback=print):
+    if max_date is None:
+        max_date = datetime.date.today().strftime("%Y-%m-%d")
     print(getsourcelines(func))
     data_backend = ExecutionContext.get_data_backend()
     order_book_id_list = data_backend.get_order_book_id_list()
