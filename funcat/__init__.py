@@ -43,7 +43,7 @@ from .data.tushare_backend import TushareDataBackend
 
 
 # close: CLOSE, C, c
-for name in ["open", "high", "low", "close", "volume", "date", "time"]:
+for name in ["open", "high", "low", "close", "volume", "datetime"]:
     cls = type("{}Series".format(name.capitalize()), (MarketDataSeries, ), {"name": name})
     obj = cls(dynamic_update=True)
     for var in [name[0], name[0].upper(), name.upper()]:
