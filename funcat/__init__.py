@@ -11,6 +11,7 @@ __main_version__ = "%s.%s.x" % (version_info[0], version_info[1])
 
 del pkgutil
 
+import numpy as np
 
 from .time_series import MarketDataSeries
 from .func import (
@@ -35,6 +36,7 @@ from .context import (
     symbol,
     set_current_security,
     set_current_date,
+    set_start_date,
     set_data_backend,
     set_current_freq,
 )
@@ -44,7 +46,8 @@ from .data.tushare_backend import TushareDataBackend
 
 # close: CLOSE, C, c
 for name in ["open", "high", "low", "close", "volume", "datetime"]:
-    cls = type("{}Series".format(name.capitalize()), (MarketDataSeries, ), {"name": name})
+    dtype = np.float64 if name != "datetime" else np.uint64
+    cls = type("{}Series".format(name.capitalize()), (MarketDataSeries, ), {"name": name, "dtype": dtype})
     obj = cls(dynamic_update=True)
     for var in [name[0], name[0].upper(), name.upper()]:
         globals()[var] = obj

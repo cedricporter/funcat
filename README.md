@@ -170,9 +170,9 @@ select(
 # 选出最近30天K线实体最高价最低价差7%以内，最近100天K线实体最高价最低价差大于25%，
 # 最近10天，收盘价大于60日均线的天数大于3天
 select(
-    lambda : (HHV(MAX(C, O), 30) / LLV(MIN(C, O), 30) - 1 < 0.07
-              and HHV(MAX(C, O), 100) / LLV(MIN(C, O), 100) - 1 > 0.25
-              and COUNT(C > MA(C, 60), 10) > 3
+    lambda : ((HHV(MAX(C, O), 30) / LLV(MIN(C, O), 30) - 1 < 0.07)
+              & (HHV(MAX(C, O), 100) / LLV(MIN(C, O), 100) - 1 > 0.25)
+              & (COUNT(C > MA(C, 60), 10) > 3)
              ),
     start_date=20161220,
 )
@@ -194,7 +194,7 @@ def callback(date, order_book_id, symbol):
 
 
 select(
-    lambda : (EVERY(V < MA(V, 20) / 2, 3) and EVERY(L < MA(C, 20), 3) and EVERY(H > MA(C, 20), 3)),
+    lambda : (EVERY(V < MA(V, 20) / 2, 3) & EVERY(L < MA(C, 20), 3) & EVERY(H > MA(C, 20), 3)),
     start_date=20161231,
     callback=callback,
 )
