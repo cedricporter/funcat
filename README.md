@@ -86,7 +86,7 @@ ABS(C - O)
 MA(C, 60)  # 60日均线
 ```
 
-其他更多请见：[indicators](https://github.com/cedricporter/funcat/blob/master/funcat/indicators.py)
+其他更多请见：[指标库](https://github.com/cedricporter/funcat/blob/master/funcat/indicators.py)
 
 ### 条件「和」与「或」
 因为语法的问题，我们需要使用 `&` 代替 `and` 「和」，用 `|` 代替 `or` 「或」。
