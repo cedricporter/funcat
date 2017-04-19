@@ -121,9 +121,9 @@ def Ref(s1, n):
 
 @handle_numpy_warning
 def minimum(s1, s2):
+    s1, s2 = ensure_timeseries(s1), ensure_timeseries(s2)
     if len(s1) == 0 or len(s2) == 0:
         raise FormulaException("minimum size == 0")
-    s1, s2 = ensure_timeseries(s1), ensure_timeseries(s2)
     series1, series2 = fit_series(s1.series, s2.series)
     s = np.minimum(series1, series2)
     return NumericSeries(s)
@@ -131,9 +131,9 @@ def minimum(s1, s2):
 
 @handle_numpy_warning
 def maximum(s1, s2):
+    s1, s2 = ensure_timeseries(s1), ensure_timeseries(s2)
     if len(s1) == 0 or len(s2) == 0:
         raise FormulaException("maximum size == 0")
-    s1, s2 = ensure_timeseries(s1), ensure_timeseries(s2)
     series1, series2 = fit_series(s1.series, s2.series)
     s = np.maximum(series1, series2)
     return NumericSeries(s)

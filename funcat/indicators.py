@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from .api import (
-    OPEN, HIGH, LOW, CLOSE, VOLUME, VOL
+    OPEN, HIGH, LOW, CLOSE, VOLUME, VOL,
     ABS, MAX, HHV, LLV,
     REF, IF, SUM, STD,
     MA, EMA,
@@ -52,6 +52,7 @@ def MACD(SHORT=12, LONG=26, M=9):
 def RSI(N1=6, N2=12, N3=24):
     """
     RSI 相对强弱指标
+    @FIXME 貌似不一致
     """
     LC = REF(CLOSE, 1)
     RSI1 = EMA(MAX(CLOSE - LC, 0), N1) / EMA(ABS(CLOSE - LC), N1) * 100
@@ -119,3 +120,28 @@ def VR(M1=26):
     VR = SUM(IF(CLOSE > LC, VOL, 0), M1) / SUM(IF(CLOSE <= LC, VOL, 0), M1) * 100
 
     return VR
+
+
+def ARBR(M1=26):
+    """
+    ARBR人气意愿指标
+    """
+    AR = SUM(HIGH - OPEN, M1) / SUM(OPEN - LOW, M1) * 100
+    BR = SUM(MAX(0, HIGH - REF(CLOSE, 1)), M1) / SUM(MAX(0, REF(CLOSE, 1) - LOW), M1) * 100
+
+    return AR, BR
+
+
+def DPO(M1=20, M2=10, M3=6):
+    DPO = CLOSE - REF(MA(CLOSE, M1), M2)
+    MADPO = MA(DPO, M3)
+
+    return DPO, MADPO
+
+
+def TRIX(M1=12, M2=20):
+    TR = EMA(EMA(EMA(CLOSE, M1), M1), M1)
+    TRIX = (TR - REF(TR, 1)) / REF(TR, 1) * 100
+    TRMA = MA(TRIX, M2)
+
+    return TRIX, TRMA
