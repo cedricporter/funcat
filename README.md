@@ -79,15 +79,6 @@ SUM(C, 10)  # 求和10天的收盘价
 ABS(C - O)
 ```
 
-### 指标
-
-- 均线：`MA`
-``` python
-MA(C, 60)  # 60日均线
-```
-
-其他更多请见：[指标库](https://github.com/cedricporter/funcat/blob/master/funcat/indicators.py)
-
 ### 条件「和」与「或」
 因为语法的问题，我们需要使用 `&` 代替 `and` 「和」，用 `|` 代替 `or` 「或」。
 
@@ -99,6 +90,16 @@ MA(C, 60)  # 60日均线
 (C > O) | (C > REF(C, 1))
 
 ```
+
+### 指标
+
+- 均线：`MA`
+``` python
+MA(C, 60)  # 60日均线
+```
+
+其他更多请见：[指标库](https://github.com/cedricporter/funcat/blob/master/funcat/indicators.py)
+
 
 还有更多的技术指标还在实现中，欢迎提交pr一起实现。
 
