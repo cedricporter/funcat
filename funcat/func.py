@@ -48,6 +48,27 @@ class ExponentialMovingAverageSeries(OneArgumentSeries):
     func = talib.EMA
 
 
+class StdSeries(OneArgumentSeries):
+    func = talib.STDDEV
+
+
+class TwoArgumentSeries(NumericSeries):
+    func = talib.STDDEV
+
+    def __init__(self, series, arg1, arg2):
+        if isinstance(series, NumericSeries):
+            series = series.series
+
+            try:
+                series[series == np.inf] = np.nan
+                series = self.func(series, arg1, arg2)
+            except Exception as e:
+                raise FormulaException(e)
+        super(TwoArgumentSeries, self).__init__(series)
+        self.extra_create_kwargs["arg1"] = arg1
+        self.extra_create_kwargs["arg2"] = arg2
+
+
 class SumSeries(NumericSeries):
     """求和"""
     def __init__(self, series, period):
@@ -180,29 +201,3 @@ def iif(condition, true_statement, false_statement):
     series[cond_series] = series1[cond_series]
 
     return NumericSeries(series)
-
-
-class MACDSeries(MarketDataSeries):
-    def __init__(self, fastperiod=12, slowperiod=26, signalperiod=9, series=None, dynamic_update=False, freq=None):
-        super(MACDSeries, self).__init__(series, dynamic_update=dynamic_update, freq=freq)
-        self.extra_create_kwargs.update({
-            "fastperiod": fastperiod,
-            "slowperiod": slowperiod,
-            "signalperiod": signalperiod,
-        })
-
-    def __call__(self, fastperiod=12, slowperiod=26, signalperiod=9, freq=None):
-        return MACDSeries(fastperiod, slowperiod, signalperiod, dynamic_update=True, freq=freq)
-
-    def _ensure_series_update(self):
-        if self._dynamic_update:
-            freq = self._freq if self._freq is not None else ExecutionContext.get_current_freq()
-            bars = get_bars(freq)
-            if len(bars) > 0:
-                close_arr = bars["close"]
-                DIF, DEM, OSC = talib.MACD(
-                    close_arr, **self.extra_create_kwargs)
-                OSC *= 2
-                self._series = OSC
-            else:
-                self._series = bars
