@@ -4,7 +4,7 @@ from .api import (
     OPEN, HIGH, LOW, CLOSE, VOLUME, VOL,
     ABS, MAX, HHV, LLV,
     REF, IF, SUM, STD,
-    MA, EMA,
+    MA, EMA, SMA,
 )
 
 
@@ -55,9 +55,9 @@ def RSI(N1=6, N2=12, N3=24):
     @FIXME 貌似不一致
     """
     LC = REF(CLOSE, 1)
-    RSI1 = EMA(MAX(CLOSE - LC, 0), N1) / EMA(ABS(CLOSE - LC), N1) * 100
-    RSI2 = EMA(MAX(CLOSE - LC, 0), N2) / EMA(ABS(CLOSE - LC), N2) * 100
-    RSI3 = EMA(MAX(CLOSE - LC, 0), N3) / EMA(ABS(CLOSE - LC), N3) * 100
+    RSI1 = SMA(MAX(CLOSE - LC, 0), N1, 1) / SMA(ABS(CLOSE - LC), N1, 1) * 100
+    RSI2 = SMA(MAX(CLOSE - LC, 0), N2, 1) / SMA(ABS(CLOSE - LC), N2, 1) * 100
+    RSI3 = SMA(MAX(CLOSE - LC, 0), N3, 1) / SMA(ABS(CLOSE - LC), N3, 1) * 100
 
     return RSI1, RSI2, RSI3
 

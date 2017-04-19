@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 #
 
+from functools import reduce
+
 import numpy as np
 import talib
 
@@ -67,6 +69,17 @@ class TwoArgumentSeries(NumericSeries):
         super(TwoArgumentSeries, self).__init__(series)
         self.extra_create_kwargs["arg1"] = arg1
         self.extra_create_kwargs["arg2"] = arg2
+
+
+class SMASeries(TwoArgumentSeries):
+    """同花顺专用SMA"""
+
+    def func(self, series, n, _):
+        results = np.nan_to_num(series).copy()
+        # FIXME this is very slow
+        for i in range(1, len(series)):
+            results[i] = ((n - 1) * results[i - 1] + results[i]) / n
+        return results
 
 
 class SumSeries(NumericSeries):

@@ -6,6 +6,7 @@ from .func import (
     SumSeries,
     AbsSeries,
     StdSeries,
+    SMASeries,
     MovingAverageSeries,
     WeightedMovingAverageSeries,
     ExponentialMovingAverageSeries,
@@ -43,6 +44,7 @@ VOL = VOLUME
 MA = MovingAverageSeries
 WMA = WeightedMovingAverageSeries
 EMA = ExponentialMovingAverageSeries
+SMA = SMASeries
 
 SUM = SumSeries
 ABS = AbsSeries
@@ -67,9 +69,10 @@ __all__ = [
     "HIGH", "H",
     "LOW", "L",
     "CLOSE", "C",
-    "VOLUME", "V",
+    "VOLUME", "V", "VOL",
     "DATETIME",
 
+    "SMA",
     "MA",
     "EMA",
     "WMA",
