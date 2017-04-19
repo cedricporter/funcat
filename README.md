@@ -86,12 +86,7 @@ ABS(C - O)
 MA(C, 60)  # 60日均线
 ```
 
-- 平滑异同移动平均线：`MACD`
-``` python
-MACD()                # 获取当前MACD
-CROSS(MACD(), 0)      # MACD金叉
-CROSS(0, MACD())      # MACD死叉
-```
+其他更多请见：[indicators](https://github.com/cedricporter/funcat/blob/master/funcat/indicators.py)
 
 ### 条件「和」与「或」
 因为语法的问题，我们需要使用 `&` 代替 `and` 「和」，用 `|` 代替 `or` 「或」。
