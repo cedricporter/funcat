@@ -88,9 +88,9 @@ MA(C, 60)  # 60日均线
 
 - 平滑异同移动平均线：`MACD`
 ``` python
-MACD              # 获取当前MACD
-CROSS(MACD, 0)    # MACD金叉
-CROSS(0, MACD)    # MACD死叉
+MACD()                # 获取当前MACD
+CROSS(MACD(), 0)      # MACD金叉
+CROSS(0, MACD())      # MACD死叉
 ```
 
 ### 条件「和」与「或」
@@ -268,8 +268,3 @@ set_data_backend(RQAlphaDataBackend("~/.rqalpha/bundle"))
 ```
 
 为了更高的性能，您也可以自定义Backend使用本地数据。这样可以极大地提高运行速度。
-
-## TODO
-talib常用指标
-- BOLL
-- SAR
