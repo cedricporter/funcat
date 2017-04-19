@@ -20,7 +20,7 @@ def test_000001():
     assert np.equal(round((CLOSE - OPEN)[2].value, 2), -8.85)
     assert np.equal(round(((CLOSE / CLOSE[1] - 1) * 100).value, 2), 0.17)
     assert np.equal(round(MA(CLOSE, 60)[2].value, 2), 3131.08)
-    assert np.equal(round(MACD.value, 2), -37.18)
+    assert np.equal(round(MACD().value, 2), -37.18)
     assert np.equal(round(HHV(HIGH, 5).value, 2), 3245.09)
     assert np.equal(round(LLV(LOW, 5).value, 2), 3100.91)
     assert COUNT(CLOSE > OPEN, 5) == 2

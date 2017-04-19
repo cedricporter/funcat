@@ -12,6 +12,7 @@ __main_version__ = "%s.%s.x" % (version_info[0], version_info[1])
 del pkgutil
 
 from .api import *
+from .indicators import *
 
 from .data.tushare_backend import TushareDataBackend
 from .context import ExecutionContext as funcat_execution_context

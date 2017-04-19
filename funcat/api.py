@@ -95,4 +95,10 @@ __all__ = [
     "T",
 
     "select",
+    "symbol",
+    "set_current_security",
+    "set_current_date",
+    "set_start_date",
+    "set_data_backend",
+    "set_current_freq",
 ]
