@@ -52,7 +52,6 @@ def MACD(SHORT=12, LONG=26, M=9):
 def RSI(N1=6, N2=12, N3=24):
     """
     RSI 相对强弱指标
-    @FIXME 貌似不一致
     """
     LC = REF(CLOSE, 1)
     RSI1 = SMA(MAX(CLOSE - LC, 0), N1, 1) / SMA(ABS(CLOSE - LC), N1, 1) * 100
