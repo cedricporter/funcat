@@ -25,7 +25,7 @@ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -U funcat
 - 收盘价：`CLOSE` `C`
 - 最高价：`HIGH` `H`
 - 最低价：`LOW` `L`
-- 成交量：`VOLUME` `V`
+- 成交量：`VOLUME` `V` `VOL`
 
 ### 工具函数
 
