@@ -73,7 +73,10 @@ class TimeSeries(object):
     @property
     @wrap_formula_exc
     def value(self):
-        return self.series[-1]
+        try:
+            return self.series[-1]
+        except IndexError:
+            raise FormulaException("DATA UNAVAILABLE")
 
     def __len__(self):
         return len(self.series)
