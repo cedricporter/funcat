@@ -41,7 +41,6 @@ class TushareDataBackend(DataBackend):
         :returns:
         :rtype: numpy.rec.array
         """
-        start_int, end_int = start, end
         start = get_str_date_from_int(start)
         end = get_str_date_from_int(end)
         code = self.convert_code(order_book_id)
