@@ -103,6 +103,13 @@ class TimeSeries(object):
         return BoolSeries(series)
 
     @wrap_formula_exc
+    def __ne__(self, other):
+        s1, s2 = fit_series(self.series, get_series(other))
+        with np.errstate(invalid='ignore'):
+            series = s1 != s2
+        return BoolSeries(series)
+
+    @wrap_formula_exc
     def __ge__(self, other):
         s1, s2 = fit_series(self.series, get_series(other))
         with np.errstate(invalid='ignore'):
