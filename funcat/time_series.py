@@ -164,6 +164,12 @@ class TimeSeries(object):
         s1, s2 = fit_series(self.series, get_series(other))
         return BoolSeries(s1 | s2)
 
+    @wrap_formula_exc
+    def __invert__(self):
+        with np.errstate(invalid='ignore'):
+            series = ~self.series
+        return BoolSeries(series)
+
     # fix bug in python 2
     __nonzero__ = __bool__
 
