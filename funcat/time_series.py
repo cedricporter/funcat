@@ -131,10 +131,24 @@ class TimeSeries(object):
         return NumericSeries(series)
 
     @wrap_formula_exc
+    def __rsub__(self, other):
+        s1, s2 = fit_series(self.series, get_series(other))
+        with np.errstate(invalid='ignore'):
+            series = s2 - s1
+        return NumericSeries(series)
+
+    @wrap_formula_exc
     def __add__(self, other):
         s1, s2 = fit_series(self.series, get_series(other))
         with np.errstate(invalid='ignore'):
             series = s1 + s2
+        return NumericSeries(series)
+
+    @wrap_formula_exc
+    def __radd__(self, other):
+        s1, s2 = fit_series(self.series, get_series(other))
+        with np.errstate(invalid='ignore'):
+            series = s2 + s1
         return NumericSeries(series)
 
     @wrap_formula_exc
@@ -145,10 +159,24 @@ class TimeSeries(object):
         return NumericSeries(series)
 
     @wrap_formula_exc
+    def __rmul__(self, other):
+        s1, s2 = fit_series(self.series, get_series(other))
+        with np.errstate(invalid='ignore'):
+            series = s2 * s1
+        return NumericSeries(series)
+
+    @wrap_formula_exc
     def __truediv__(self, other):
         s1, s2 = fit_series(self.series, get_series(other))
         with np.errstate(invalid='ignore'):
             series = s1 / s2
+        return NumericSeries(series)
+
+    @wrap_formula_exc
+    def __rtruediv__(self, other):
+        s1, s2 = fit_series(self.series, get_series(other))
+        with np.errstate(invalid='ignore'):
+            series = s2 / s1
         return NumericSeries(series)
 
     __div__ = __truediv__
