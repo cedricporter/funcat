@@ -64,7 +64,13 @@ class RQAlphaDataBackend(DataBackend):
     def get_order_book_id_list(self):
         """获取所有的
         """
-        return sorted(self.data_proxy.all_instruments("CS").order_book_id.tolist())
+        insts = self.data_proxy.all_instruments("CS")
+        if isinstance(obid, pd.DataFrame):
+            # for old version of RQAlpha
+            return sorted(insts.order_book_id.tolist())
+        else:
+            # for new version fo RQAlpha
+            return sorted([inst.order_book_id for inst in insts])
 
     def symbol(self, order_book_id):
         """获取order_book_id对应的名字
