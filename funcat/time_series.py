@@ -26,7 +26,7 @@ def get_bars(freq):
         return bars
 
     # if security is suspend, just skip
-    if data_backend.skip_suspended and bars["datetime"][-1] // 1000000 != current_date:
+    if data_backend.skip_suspended and bars["datetime"][-1] // 1000000 != current_date and freq not in ("W", "M"):
         return np.array([])
 
     return bars

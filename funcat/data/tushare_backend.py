@@ -54,13 +54,14 @@ class TushareDataBackend(DataBackend):
             ktype = freq[:-1]
         elif freq == "1d":
             ktype = "D"
+        # else W M
 
         df = self.ts.get_k_data(code, start=start, end=end, index=is_index, ktype=ktype)
 
         if freq[-1] == "m":
             df["datetime"] = df.apply(
                 lambda row: int(row["date"].split(" ")[0].replace("-", "")) * 1000000 + int(row["date"].split(" ")[1].replace(":", "")) * 100, axis=1)
-        elif freq == "1d":
+        elif freq in ("1d", "W", "M"):
             df["datetime"] = df["date"].apply(lambda x: int(x.replace("-", "")) * 1000000)
 
         del df["code"]
