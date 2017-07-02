@@ -65,7 +65,7 @@ class RQAlphaDataBackend(DataBackend):
         """获取所有的
         """
         insts = self.data_proxy.all_instruments("CS")
-        if isinstance(obid, pd.DataFrame):
+        if isinstance(insts, pd.DataFrame):
             # for old version of RQAlpha
             return sorted(insts.order_book_id.tolist())
         else:
