@@ -64,6 +64,7 @@ class RQAlphaDataBackend(DataBackend):
     def get_order_book_id_list(self):
         """获取所有的
         """
+        import pandas as pd
         insts = self.data_proxy.all_instruments("CS")
         if isinstance(insts, pd.DataFrame):
             # for old version of RQAlpha
