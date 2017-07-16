@@ -17,6 +17,8 @@ from .func import (
     count,
     hhv,
     llv,
+    hhvbars,
+    llvbars,
     Ref,
     iif,
     ceiling,
@@ -62,6 +64,8 @@ EVERY = every
 COUNT = count
 HHV = hhv
 LLV = llv
+HHVBARS = hhvbars
+LLVBARS = llvbars
 IF = IIF = iif
 CEILING = ceiling
 CONST = const
@@ -97,6 +101,8 @@ __all__ = [
     "COUNT",
     "HHV",
     "LLV",
+    "HHVBARS",
+    "LLVBARS",
     "IF", "IIF",
     "CEILING",
     "CONST",
