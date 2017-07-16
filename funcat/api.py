@@ -17,6 +17,8 @@ from .func import (
     count,
     hhv,
     llv,
+    hhvbars,
+    llvbars,
     Ref,
     iif,
 )
@@ -58,6 +60,8 @@ EVERY = every
 COUNT = count
 HHV = hhv
 LLV = llv
+HHVBARS = hhvbars
+LLVBARS = llvbars
 IF = IIF = iif
 
 S = set_current_security
@@ -89,6 +93,8 @@ __all__ = [
     "COUNT",
     "HHV",
     "LLV",
+    "HHVBARS",
+    "LLVBARS",
     "IF", "IIF",
 
     "S",

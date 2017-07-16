@@ -204,6 +204,37 @@ def llv(s, n):
 
 
 @handle_numpy_warning
+def hhvbars(s, n):
+    # TODO lazy compute
+    series = s.series
+    size = len(s.series) - n
+    try:
+        result = np.full(size, 0, dtype=np.float64)
+    except ValueError as e:
+        raise FormulaException(e)
+
+    result = np.argmax(rolling_window(series, n), 1)
+
+    return NumericSeries(result)
+
+
+@handle_numpy_warning
+def llvbars(s, n):
+    # TODO lazy compute
+    series = s.series
+    size = len(s.series) - n
+    try:
+        result = np.full(size, 0, dtype=np.float64)
+    except ValueError as e:
+        raise FormulaException(e)
+
+    result = np.argmin(rolling_window(series, n), 1)
+
+    return NumericSeries(result)
+
+
+
+@handle_numpy_warning
 def iif(condition, true_statement, false_statement):
     series1 = get_series(true_statement)
     series2 = get_series(false_statement)
