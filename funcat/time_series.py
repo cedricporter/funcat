@@ -32,12 +32,12 @@ def get_bars(freq):
     return bars
 
 
-def fit_series(s1, s2):
-    size = min(len(s1), len(s2))
+def fit_series(*series_list):
+    size = min(len(series) for series in series_list)
     if size == 0:
         raise FormulaException("series size == 0")
-    s1, s2 = s1[-size:], s2[-size:]
-    return s1, s2
+    new_series_list = [series[-size:] for series in series_list]
+    return new_series_list
 
 
 def get_value(val):

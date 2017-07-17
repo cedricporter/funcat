@@ -207,8 +207,7 @@ def llv(s, n):
 def iif(condition, true_statement, false_statement):
     series1 = get_series(true_statement)
     series2 = get_series(false_statement)
-    series1, series2 = fit_series(series1, series2)
-    cond_series = condition.series[-len(series1):]
+    cond_series, series1, series2 = fit_series(condition.series, series1, series2)
 
     series = series2.copy()
     series[cond_series] = series1[cond_series]
