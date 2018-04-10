@@ -19,6 +19,17 @@ from .time_series import (
 )
 
 
+# delete nan of series for error made by some operator
+def filter_begin_nan(series):
+    i = 0
+    for x in series:
+        if np.isnan(x):
+            i += 1
+        else:
+            break
+    return series[i:]
+
+
 class OneArgumentSeries(NumericSeries):
     func = talib.MA
 
@@ -29,6 +40,7 @@ class OneArgumentSeries(NumericSeries):
             try:
                 series[series == np.inf] = np.nan
                 series = self.func(series, arg)
+                series = filter_begin_nan(series)
             except Exception as e:
                 raise FormulaException(e)
         super(OneArgumentSeries, self).__init__(series)
@@ -64,6 +76,7 @@ class TwoArgumentSeries(NumericSeries):
             try:
                 series[series == np.inf] = np.nan
                 series = self.func(series, arg1, arg2)
+                series = filter_begin_nan(series)
             except Exception as e:
                 raise FormulaException(e)
         super(TwoArgumentSeries, self).__init__(series)
@@ -129,6 +142,8 @@ def CrossOver(s1, s2):
 
 
 def Ref(s1, n):
+    if isinstance(n, NumericSeries):
+        return s1[int(n.value)]
     return s1[n]
 
 
@@ -213,3 +228,24 @@ def iif(condition, true_statement, false_statement):
     series[cond_series] = series1[cond_series]
 
     return NumericSeries(series)
+
+
+@handle_numpy_warning
+def barslast(statement):
+    series = get_series(statement)
+    size = len(series)
+    end = size
+    begin = size - 1
+
+    try:
+        result = np.full(size, 1e16, dtype=np.int64)
+    except ValueError as e:
+        raise FormulaException(e)
+
+    for s in series[::-1]:
+        if s:
+            result[begin:end] = range(0, end - begin)
+            end = begin
+        begin -= 1
+
+    return NumericSeries(result)
