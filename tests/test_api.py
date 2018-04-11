@@ -14,6 +14,7 @@ def test_000001():
     T("20161216")
     S("000001.XSHG")
 
+    assert np.equal(REF(C, BARSLAST(C > 0)).value, C.value)
     assert np.equal(round(CLOSE.value, 2), 3122.98)
     assert np.equal(round(OPEN[2].value, 2), 3149.38)
     assert np.equal(round((CLOSE - OPEN).value, 2), 11.47)
