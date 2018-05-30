@@ -28,7 +28,7 @@ class OneArgumentSeries(NumericSeries):
 
             try:
                 series[series == np.inf] = np.nan
-                series = self.func(series, arg)
+                series = self.__class__.func(series, arg)
             except Exception as e:
                 raise FormulaException(e)
         super(OneArgumentSeries, self).__init__(series)
