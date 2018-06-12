@@ -20,7 +20,10 @@ from .time_series import (
 
 
 class OneArgumentSeries(NumericSeries):
-    func = talib.MA
+
+    @staticmethod
+    def func(*args, **kwargs):
+        return talib.MA(*args, **kwargs)
 
     def __init__(self, series, arg):
         if isinstance(series, NumericSeries):
@@ -37,21 +40,32 @@ class OneArgumentSeries(NumericSeries):
 
 class MovingAverageSeries(OneArgumentSeries):
     """http://www.tadoc.org/indicator/MA.htm"""
-    func = talib.MA
+
+    @staticmethod
+    def func(*args, **kwargs):
+        return talib.MA(*args, **kwargs)
 
 
 class WeightedMovingAverageSeries(OneArgumentSeries):
     """http://www.tadoc.org/indicator/WMA.htm"""
-    func = talib.WMA
+
+    @staticmethod
+    def func(*args, **kwargs):
+        return talib.WMA(*args, **kwargs)
 
 
 class ExponentialMovingAverageSeries(OneArgumentSeries):
     """http://www.fmlabs.com/reference/default.htm?url=ExpMA.htm"""
-    func = talib.EMA
+
+    @staticmethod
+    def func(*args, **kwargs):
+        return talib.EMA(*args, **kwargs)
 
 
 class StdSeries(OneArgumentSeries):
-    func = talib.STDDEV
+    @staticmethod
+    def func(*args, **kwargs):
+        return talib.STDDEV(*args, **kwargs)
 
 
 class TwoArgumentSeries(NumericSeries):
