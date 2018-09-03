@@ -8,8 +8,8 @@ from setuptools import (
     setup,
 )
 
-from pip.req import parse_requirements
-
+with open(join(dirname(__file__), 'requirements.txt'), 'rb') as f:
+    requirements = f.read().decode('ascii').strip()
 
 with open(join(dirname(__file__), 'funcat/VERSION.txt'), 'rb') as f:
     version = f.read().decode('ascii').strip()
@@ -24,7 +24,7 @@ setup(
     author_email='et@everet.org',
     license='Apache License v2',
     package_data={'': ['*.*']},
-    install_requires=[str(ir.req) for ir in parse_requirements("requirements.txt", session=False)],
+    install_requires=requirements,
     zip_safe=False,
     classifiers=[
         'Programming Language :: Python',
