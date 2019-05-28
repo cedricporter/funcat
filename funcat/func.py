@@ -213,3 +213,10 @@ def iif(condition, true_statement, false_statement):
     series[cond_series] = series1[cond_series]
 
     return NumericSeries(series)
+
+
+@handle_numpy_warning
+def ceiling(s):
+    series = s.series
+    print("ceiling series: ", series)
+    return NumericSeries(np.ceil(series))

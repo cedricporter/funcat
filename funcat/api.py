@@ -19,6 +19,7 @@ from .func import (
     llv,
     Ref,
     iif,
+    ceiling,
 )
 from .context import (
     symbol,
@@ -59,6 +60,7 @@ COUNT = count
 HHV = hhv
 LLV = llv
 IF = IIF = iif
+CEILING = ceiling
 
 S = set_current_security
 T = set_current_date
