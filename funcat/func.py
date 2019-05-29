@@ -84,6 +84,7 @@ class SMASeries(TwoArgumentSeries):
 
 class SumSeries(NumericSeries):
     """求和"""
+
     def __init__(self, series, period):
         if isinstance(series, NumericSeries):
             series = series.series
@@ -218,5 +219,90 @@ def iif(condition, true_statement, false_statement):
 @handle_numpy_warning
 def ceiling(s):
     series = s.series
-    print("ceiling series: ", series)
     return NumericSeries(np.ceil(series))
+
+
+@handle_numpy_warning
+def const(s):
+    series = s.series
+    return NumericSeries(series)
+
+
+@handle_numpy_warning
+def drawnull(s):
+    pass
+
+
+@handle_numpy_warning
+def zig(s, n):
+    series = s.series
+    assert isinstance(series, np.ndarray)
+    i = 0
+    start = 0
+    rise = 1
+    fall = 2
+    candidate_i = None
+    peers = []
+    peer_i = 0
+    curr_state = start
+    while True:
+        i += 1
+        if i == series.size - 1:
+            if candidate_i is None:
+                peer_i = i
+                peers.append(peer_i)
+            else:
+                if curr_state == rise:
+                    if series[n] >= series[candidate_i]:
+                        peer_i = i
+                        peers.append(peer_i)
+                    else:
+                        peer_i = candidate_i
+                        peers.append(peer_i)
+                        peer_i = i
+                        peers.append(peer_i)
+                elif curr_state == fall:
+                    if series[i] <= series[candidate_i]:
+                        peer_i = i
+                        peers.append(peer_i)
+                    else:
+                        peer_i = candidate_i
+                        peers.append(peer_i)
+                        peer_i = i
+                        peers.append(peer_i)
+            break
+
+        if curr_state == start:
+            if series[i] >= series[peer_i] * (1.0 + n / 100.0):
+                candidate_i = i
+                curr_state = rise
+            elif series[i] <= series[peer_i] * (1.0 - n / 100.0):
+                candidate_i = i
+                curr_state = fall
+        elif curr_state == rise:
+            if series[i] >= series[candidate_i]:
+                candidate_i = i
+            elif series[i] <= series[candidate_i] * (1.0 - n / 100.0):
+                peer_i = candidate_i
+                peers.append(peer_i)
+                curr_state = fall
+                candidate_i = i
+        elif curr_state == fall:
+            if series[i] <= series[candidate_i]:
+                candidate_i = i
+            elif series[i] >= series[candidate_i] * (1.0 + n / 100.0):
+                peer_i = candidate_i
+                peers.append(peer_i)
+                curr_state = rise
+                candidate_i = i
+
+    for i in range(len(peers) - 1):
+        peer_start_i = peers[i]
+        peer_end_i = peers[i + 1]
+        start_value = series[peer_start_i]
+        end_value = series[peer_end_i]
+        a = (end_value - start_value) / (peer_end_i - peer_start_i)
+        for j in range(peer_end_i - peer_start_i):
+            z[j + peer_start_i] = start_value + a * j
+
+    return NumericSeries(np.ndarray(z))

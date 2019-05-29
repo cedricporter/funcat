@@ -20,6 +20,9 @@ from .func import (
     Ref,
     iif,
     ceiling,
+    const,
+    drawnull,
+    zig,
 )
 from .context import (
     symbol,
@@ -61,6 +64,9 @@ HHV = hhv
 LLV = llv
 IF = IIF = iif
 CEILING = ceiling
+CONST = const
+DRAWNULL = drawnull
+ZIG = zig  # zig当前以收盘价为准
 
 S = set_current_security
 T = set_current_date
@@ -92,6 +98,10 @@ __all__ = [
     "HHV",
     "LLV",
     "IF", "IIF",
+    "CEILING",
+    "CONST",
+    "DRAWNULL",
+    "ZIG",
 
     "S",
     "T",
