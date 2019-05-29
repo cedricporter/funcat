@@ -1,3 +1,5 @@
+*由于原仓库不再更新，故fork此仓库用作独立开发*
+
 # Funcat
 
 [![PyPI](https://img.shields.io/pypi/v/funcat.svg)](https://pypi.python.org/pypi/funcat)
