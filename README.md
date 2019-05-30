@@ -1,10 +1,10 @@
 # 开发者手册
 
-**由于原仓库不再更新，故fork此仓库用作独立开发**
+**1. 由于原仓库不再更新，故fork此仓库用作独立开发**
 
-**开发分支为dev，并向master发起merge request**
+**2. 开发分支为dev，并向master发起merge request**
 
-**所有未打tag的master节点，意味着未经pytest测试**
+**3. 所有未打tag的master节点，意味着未经pytest测试**
 
 # 使用者手册
 
