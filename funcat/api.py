@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import numpy as np
 
-from .time_series import MarketDataSeries
+from .time_series import MarketDataSeries, NumericSeries
 from .func import (
     SumSeries,
     AbsSeries,
@@ -19,7 +19,7 @@ from .func import (
     llv,
     Ref,
     iif,
-)
+    barslast)
 from .context import (
     symbol,
     set_current_security,
@@ -59,6 +59,7 @@ COUNT = count
 HHV = hhv
 LLV = llv
 IF = IIF = iif
+BARSLAST=barslast
 
 S = set_current_security
 T = set_current_date
@@ -90,6 +91,7 @@ __all__ = [
     "HHV",
     "LLV",
     "IF", "IIF",
+    "BARSLAST",
 
     "S",
     "T",
@@ -101,4 +103,6 @@ __all__ = [
     "set_start_date",
     "set_data_backend",
     "set_current_freq",
+
+    "NumericSeries",
 ]

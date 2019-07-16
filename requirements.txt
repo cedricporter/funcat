@@ -6,3 +6,5 @@ lxml
 requests
 TA-Lib
 cached-property
+bs4
+tushare
